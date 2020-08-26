@@ -1,0 +1,138 @@
+package com.example.order.controller;
+
+import com.example.order.common.Constant;
+import com.example.order.entity.GSysUser;
+import com.example.order.exception.LoginException;
+import com.example.order.request.LoginRequestParam;
+import com.example.order.service.LoginService;
+import com.example.order.service.TestService;
+import com.example.order.utils.ServletUtils;
+import com.example.order.utils.TokenUtil;
+import com.example.order.vo.ValidateCodeVo;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+//@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
+@RequestMapping("/api/login")
+public class LoginController {
+
+    protected static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    @Autowired
+    TestService testService;
+
+    @Autowired
+    LoginService loginService;
+
+    @RequestMapping("/index")
+    public String index(){
+        return "login";
+    }
+
+    @Value("${syspara.istest}")
+    private String isTest;
+
+
+    @RequestMapping("/test")
+    public void test(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map<String, Object> res = new HashMap<String, Object>();
+        res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        res.put(Constant.RESPONSE_CODE_MSG, "成功!");
+        ServletUtils.writeToResponse(response, res);
+    }
+
+    /**
+     * 生成图片验证码
+     *
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping("/getPicVercode")
+    public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 设置响应的类型格式为图片格式
+        response.setContentType("image/jpeg");
+        //禁止图像缓存。
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        HttpSession session = request.getSession();
+        ValidateCodeVo vCode = new ValidateCodeVo(120, 50, 4, 50);
+        session.setAttribute("code", vCode.getCode());
+        vCode.write(response.getOutputStream());
+        response.getOutputStream().flush();
+    }
+
+    @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
+    public void testLogin(@RequestBody LoginRequestParam loginRequestParam, HttpServletRequest request, HttpServletResponse response){
+
+        Map<String, Object> res = new HashMap<String, Object>();
+        String username = loginRequestParam.getUsername();
+        String password = loginRequestParam.getPassword();
+        String loginCode = loginRequestParam.getLoginCode();
+
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)){
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "请输入用户名或密码!");
+            ServletUtils.writeToResponse(response, res);
+            return;
+        }
+
+        //判断当前环境是否为为开发环境,开发环境不做验证码检验
+        if (!"dev".equals(isTest)) {
+            //校验验证码
+            Map<String, Object> result = checkCode(loginCode, request.getAttribute("code"));
+            if (400 == Integer.parseInt(result.get(Constant.RESPONSE_CODE).toString())){
+                ServletUtils.writeToResponse(response, res);
+            }
+        }
+
+        try {
+            GSysUser gSysUser = loginService.doLogin(username, password);
+
+            //根据用户信息生成token
+            String token = TokenUtil.sign(gSysUser);
+            gSysUser.setToken(token);
+
+            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysUser);
+            res.put(Constant.RESPONSE_DATA, gSysUser);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "登录成功!");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+
+    }
+
+    public Map<String, Object> checkCode(String loginCode, Object sessionCode){
+        Map<String, Object> res = new HashMap<String, Object>();
+        if (StringUtils.isBlank(loginCode)){
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "请输入验证码!");
+            return res;
+        }
+        if (loginCode.length() != 4 || !loginCode.equals(sessionCode)){
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "验证码输入错误!");
+            return res;
+        }
+        res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        res.put(Constant.RESPONSE_CODE_MSG, "验证通过!");
+        return res;
+    }
+
+}
