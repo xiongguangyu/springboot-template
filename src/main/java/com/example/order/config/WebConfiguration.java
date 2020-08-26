@@ -1,6 +1,7 @@
 package com.example.order.config;
 
 import com.example.order.interceptor.TokenInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
@@ -21,6 +22,9 @@ import java.util.concurrent.Executors;
 public class WebConfiguration implements WebMvcConfigurer {
 
     private TokenInterceptor tokenInterceptor;
+
+    @Value("${syspara.istest}")
+    private String isTest;
 
     //构造方法
     public WebConfiguration(TokenInterceptor tokenInterceptor){
@@ -46,7 +50,12 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
         List<String> excludePath = new ArrayList<>();
         //配置不需要拦截的接口
-        excludePath.add("/api/login/doLogin");     //登录
+        //如果当前为开发环境则不需要校验
+        if ("dev".equals(isTest)){
+            excludePath.add("/**"); //
+        }else {
+            excludePath.add("/api/login/doLogin");     //登录
+        }
         //excludePath.add("/static/**");  //静态资源
         //excludePath.add("/assets/**");  //静态资源
 

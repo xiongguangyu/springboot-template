@@ -2,15 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.order.mapper.GSysUserMapper">
   <resultMap id="BaseResultMap" type="com.example.order.entity.GSysUser">
-    <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <id column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
-    <result column="PWD_UPT_TIME" jdbcType="VARCHAR" property="pwdUptTime" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="PWD_UPT_TIME" jdbcType="TIMESTAMP" property="pwdUptTime" />
+    <result column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="WECHAT_OPENID" jdbcType="VARCHAR" property="wechatOpenid" />
+    <result column="ROLE" jdbcType="VARCHAR" property="role" />
   </resultMap>
   <sql id="Base_Column_List">
-    USER_ID, LOGIN_NAME, PASSWORD, STATUS, CREATE_TIME, PWD_UPT_TIME
+    USER_ID, LOGIN_NAME, PASSWORD, STATUS, CREATE_TIME, PWD_UPT_TIME, LAST_LOGIN_TIME,
+    WECHAT_OPENID, ROLE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -39,10 +43,19 @@
       <if test="pwdUptTime != null">
         PWD_UPT_TIME,
       </if>
+      <if test="lastLoginTime != null">
+        LAST_LOGIN_TIME,
+      </if>
+      <if test="wechatOpenid != null">
+        WECHAT_OPENID,
+      </if>
+      <if test="role != null">
+        ROLE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="loginName != null">
         #{loginName,jdbcType=VARCHAR},
@@ -51,13 +64,22 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=CHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="pwdUptTime != null">
-        #{pwdUptTime,jdbcType=VARCHAR},
+        #{pwdUptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wechatOpenid != null">
+        #{wechatOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -71,16 +93,25 @@
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=CHAR},
       </if>
       <if test="createTime != null">
-        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="pwdUptTime != null">
-        PWD_UPT_TIME = #{pwdUptTime,jdbcType=VARCHAR},
+        PWD_UPT_TIME = #{pwdUptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null">
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wechatOpenid != null">
+        WECHAT_OPENID = #{wechatOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        ROLE = #{role,jdbcType=VARCHAR},
       </if>
     </set>
-    where USER_ID = #{userId,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=BIGINT}
   </update>
 
   <select id="loginUser" parameterType="java.lang.String" resultMap="BaseResultMap">
