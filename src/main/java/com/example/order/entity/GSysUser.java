@@ -3,6 +3,7 @@ package com.example.order.entity;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @ToString
@@ -11,7 +12,7 @@ import java.io.Serializable;
 @Builder
 public class GSysUser implements Serializable {
 
-    private String userId;
+    private Long userId;
 
     private String loginName;
 
@@ -19,11 +20,16 @@ public class GSysUser implements Serializable {
 
     private String status;
 
-    private String createTime;
+    private Date createTime;
 
-    private String pwdUptTime;
+    private Date pwdUptTime;
+
+    private Date lastLoginTime;
+
+    private String wechatOpenid;
+
+    private String role;
 
     private String token;
-
 
 }
