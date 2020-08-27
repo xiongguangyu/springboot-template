@@ -12,8 +12,8 @@ spring:
     username: guest
     password: guest
 mybatis:
-  mapper-locations: classpath:mapper/*.xml  #配置映射文件
-  type-aliases-package: com.example.order.entity #配置实体类
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.order.entity
 
 syspara:
   istest: dev

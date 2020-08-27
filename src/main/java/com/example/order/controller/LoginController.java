@@ -23,6 +23,13 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @ClassName LoginController
+ * @Description 用户登录Controller
+ * @Author xionggy
+ * @Date 2020/8/27
+ * @Version 1.0
+ */
 @Controller
 //@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
 @RequestMapping("/api/login")
