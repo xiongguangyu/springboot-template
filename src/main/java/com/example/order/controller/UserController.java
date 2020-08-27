@@ -20,6 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @ClassName UserController
+ * @Description 用户信息管理Controller
+ * @Author xionggy
+ * @Date 2020/8/27
+ * @Version 1.0
+ */
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
