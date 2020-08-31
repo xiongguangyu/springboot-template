@@ -20,14 +20,14 @@ public class ExceptionCatch {
 
     @ExceptionHandler(CustomException.class)
     public ServerResponse customException(CustomException customException){
-        //todo:此处做该异常的统一处理
+        //TODO:此处做该异常的统一处理
         String message = customException.getMessage();
         return ServerResponse.createByErrorMessage(message);
     }
 
     @ExceptionHandler(LoginException.class)
     public void customException(LoginException loginException){
-        //todo:此处做该异常的统一处理
+        //TODO:此处做该异常的统一处理
         String message = loginException.getMessage();
         logger.error("用户登录失败:{}",message);
     }

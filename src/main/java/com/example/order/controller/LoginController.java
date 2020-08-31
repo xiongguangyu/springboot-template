@@ -3,7 +3,6 @@ package com.example.order.controller;
 import com.example.order.common.Constant;
 import com.example.order.entity.GSysUser;
 import com.example.order.exception.LoginException;
-import com.example.order.request.LoginRequestParam;
 import com.example.order.service.LoginService;
 import com.example.order.service.TestService;
 import com.example.order.utils.ServletUtils;
@@ -82,14 +81,14 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
-    public void testLogin(@RequestBody LoginRequestParam loginRequestParam, HttpServletRequest request, HttpServletResponse response){
+    public void testLogin(@RequestParam("userName") String userName,
+                          @RequestParam("passWord") String passWord,
+                          @RequestParam(value = "loginCode",required = false) String loginCode,
+                          HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> res = new HashMap<String, Object>();
-        String username = loginRequestParam.getUsername();
-        String password = loginRequestParam.getPassword();
-        String loginCode = loginRequestParam.getLoginCode();
 
-        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)){
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)){
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "请输入用户名或密码!");
             ServletUtils.writeToResponse(response, res);
@@ -106,7 +105,7 @@ public class LoginController {
         }
 
         try {
-            GSysUser gSysUser = loginService.doLogin(username, password);
+            GSysUser gSysUser = loginService.doLogin(userName, passWord);
 
             //根据用户信息生成token
             String token = TokenUtil.sign(gSysUser);
