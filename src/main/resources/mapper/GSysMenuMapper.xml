@@ -2,14 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.order.mapper.GSysMenuMapper">
   <resultMap id="BaseResultMap" type="com.example.order.entity.GSysMenu">
+
     <id column="MENU_ID" jdbcType="BIGINT" property="menuId" />
     <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName" />
-    <result column="MENU_SEQ" jdbcType="INTEGER" property="menuSeq" />
-    <result column="MENU_REMARK" jdbcType="VARCHAR" property="menuRemark" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
     <result column="IS_VALID" jdbcType="CHAR" property="isValid" />
   </resultMap>
   <sql id="Base_Column_List">
-    MENU_ID, MENU_NAME, MENU_SEQ, MENU_REMARK, IS_VALID
+    MENU_ID, MENU_NAME, REMARK, PARENT_ID, IS_VALID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
@@ -26,11 +27,11 @@
       <if test="menuName != null">
         MENU_NAME,
       </if>
-      <if test="menuSeq != null">
-        MENU_SEQ,
+      <if test="remark != null">
+        REMARK,
       </if>
-      <if test="menuRemark != null">
-        MENU_REMARK,
+      <if test="parentId != null">
+        PARENT_ID,
       </if>
       <if test="isValid != null">
         IS_VALID,
@@ -43,11 +44,11 @@
       <if test="menuName != null">
         #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="menuSeq != null">
-        #{menuSeq,jdbcType=INTEGER},
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="menuRemark != null">
-        #{menuRemark,jdbcType=VARCHAR},
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
       </if>
       <if test="isValid != null">
         #{isValid,jdbcType=CHAR},
@@ -60,11 +61,11 @@
       <if test="menuName != null">
         MENU_NAME = #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="menuSeq != null">
-        MENU_SEQ = #{menuSeq,jdbcType=INTEGER},
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="menuRemark != null">
-        MENU_REMARK = #{menuRemark,jdbcType=VARCHAR},
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="isValid != null">
         IS_VALID = #{isValid,jdbcType=CHAR},
@@ -74,9 +75,12 @@
   </update>
 
   <select id="getMenuList" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from g_sys_menu
-    order by MENU_SEQ ASC
+    SELECT
+        b.*
+    FROM
+        g_sys_user_menu a
+    LEFT JOIN g_sys_menu b ON a.MENU_ID = b.MENU_ID
+    WHERE
+        a.USER_ID = #{userId} AND b.IS_VALID = '1'
   </select>
 </mapper>

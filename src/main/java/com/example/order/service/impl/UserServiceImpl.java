@@ -31,8 +31,10 @@ public class UserServiceImpl implements UserService {
     private GSysUserMapper gSysUserMapper;
 
     @Override
-    public List<GSysMenu> getMenuList() {
-        return gSysMenuMapper.getMenuList();
+    public List<GSysMenu> getMenuList(Long userId) {
+        List<GSysMenu> menuList = gSysMenuMapper.getMenuList(userId);
+
+        return gSysMenuMapper.getMenuList(userId);
     }
 
     @Override
@@ -43,7 +45,6 @@ public class UserServiceImpl implements UserService {
         gSysUser.setStatus("1");
         gSysUser.setCreateTime(new Date());
         gSysUser.setWechatOpenid(addUserRequestParam.getWechatOpenId());
-        gSysUser.setRole(addUserRequestParam.getMenus());
         try {
             gSysUserMapper.insertSelective(gSysUser);
         } catch (Exception e) {

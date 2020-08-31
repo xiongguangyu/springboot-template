@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,9 +38,10 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/getMenuList",method = RequestMethod.GET)
-    public void getMenuList(HttpServletRequest request, HttpServletResponse response){
+    public void getMenuList(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("userId") Long userId){
         Map<String, Object> res = new HashMap<String, Object>();
-        List<GSysMenu> menuList = userService.getMenuList();
+        List<GSysMenu> menuList = userService.getMenuList(userId);
         res.put(Constant.RESPONSE_DATA, menuList);
         res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
         ServletUtils.writeToResponse(response,res);

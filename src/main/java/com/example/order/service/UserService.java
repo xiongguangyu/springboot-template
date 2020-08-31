@@ -12,7 +12,7 @@ public interface UserService {
      * 获取所有菜单
      * @return list
      */
-    List<GSysMenu> getMenuList();
+    List<GSysMenu> getMenuList(Long userId);
 
     void addUser(AddUserRequestParam addUserRequestParam) throws AddUserException;
 
