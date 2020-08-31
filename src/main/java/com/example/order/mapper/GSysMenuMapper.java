@@ -1,6 +1,7 @@
 package com.example.order.mapper;
 
 import com.example.order.entity.GSysMenu;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +19,6 @@ public interface GSysMenuMapper {
      * 获取所有菜单
      * @return list
      */
-    List<GSysMenu> getMenuList();
+    List<GSysMenu> getMenuList(@Param("userId") Long userId);
 
 }

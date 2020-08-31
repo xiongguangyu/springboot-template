@@ -15,9 +15,9 @@ public class GSysMenu implements Serializable {
 
     private String menuName;
 
-    private Integer menuSeq;
+    private String remark;
 
-    private String menuRemark;
+    private Integer parentId;
 
     private String isValid;
 

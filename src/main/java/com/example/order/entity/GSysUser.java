@@ -28,8 +28,6 @@ public class GSysUser implements Serializable {
 
     private String wechatOpenid;
 
-    private String role;
-
     private String token;
 
 }
