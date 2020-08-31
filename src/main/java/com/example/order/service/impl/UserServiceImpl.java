@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<GSysMenu> getMenuList(Long userId) {
-        List<GSysMenu> menuList = gSysMenuMapper.getMenuList(userId);
+        List<GSysMenu> menuList = gSysMenuMapper.getMenuListForUserId(userId);
 
-        return gSysMenuMapper.getMenuList(userId);
+        return gSysMenuMapper.getMenuListForUserId(userId);
     }
 
     @Override
