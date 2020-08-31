@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -48,7 +50,7 @@ class OrderApplicationTests {
     public void test1(){
         Long userId = 5L;
         List<GSysMenu> menuList = userService.getMenuList(userId);
-        System.out.println();
+        System.out.println(menuList);
     }
 
 
