@@ -53,9 +53,7 @@ class OrderApplicationTests {
     @Test
     public void test1(){
         Long userId = 5L;
-        System.out.println();
-        List<GSysMenu> menuList = userService.getMenuList(userId);
-        System.out.println(menuList);
+
     }
 
 
