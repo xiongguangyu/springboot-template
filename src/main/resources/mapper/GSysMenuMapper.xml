@@ -74,7 +74,7 @@
     where MENU_ID = #{menuId,jdbcType=BIGINT}
   </update>
 
-  <select id="getMenuList" resultMap="BaseResultMap">
+  <select id="getMenuListForUserId" resultMap="BaseResultMap">
     SELECT
         b.*
     FROM
@@ -82,5 +82,13 @@
     LEFT JOIN g_sys_menu b ON a.MENU_ID = b.MENU_ID
     WHERE
         a.USER_ID = #{userId} AND b.IS_VALID = '1'
+    ORDER BY b.MENU_ID ASC
+  </select>
+
+  <select id="getMenuListForParentId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from g_sys_menu
+    where PARENT_ID = #{parentId,jdbcType=INTEGER}
   </select>
 </mapper>

@@ -19,6 +19,12 @@ public interface GSysMenuMapper {
      * 获取所有菜单
      * @return list
      */
-    List<GSysMenu> getMenuList(@Param("userId") Long userId);
+    List<GSysMenu> getMenuListForUserId(@Param("userId") Long userId);
+
+    /**
+     * 获取所有菜单
+     * @return list
+     */
+    List<GSysMenu> getMenuListForParentId(@Param("parentId") Long parentId);
 
 }
