@@ -2,6 +2,7 @@ package com.example.order;
 
 import com.example.order.entity.GSysMenu;
 import com.example.order.entity.GSysUser;
+import com.example.order.mapper.GSysMenuMapper;
 import com.example.order.service.TestService;
 import com.example.order.service.UserService;
 import com.example.order.utils.TokenUtil;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,6 +26,9 @@ class OrderApplicationTests {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private GSysMenuMapper gSysMenuMapper;
 
     @Test
     public void contextLoads() {
@@ -47,8 +53,7 @@ class OrderApplicationTests {
     @Test
     public void test1(){
         Long userId = 5L;
-        List<GSysMenu> menuList = userService.getMenuList(userId);
-        System.out.println();
+
     }
 
 
