@@ -41,7 +41,7 @@ public class UserController {
     public void getMenuList(HttpServletRequest request, HttpServletResponse response,
                             @RequestParam("userId") Long userId){
         Map<String, Object> res = new HashMap<String, Object>();
-        List<GSysMenu> menuList = userService.getMenuList(userId);
+        Map<String, Object> menuList = userService.getMenuList(userId);
         res.put(Constant.RESPONSE_DATA, menuList);
         res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
         ServletUtils.writeToResponse(response,res);
