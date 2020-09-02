@@ -11,4 +11,5 @@ public interface LoginService {
      * @return
      */
     GSysUser doLogin(String username, String password);
+
 }
