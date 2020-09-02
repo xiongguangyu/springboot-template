@@ -47,8 +47,6 @@ class OrderApplicationTests {
 
         System.out.println(sign);
         System.out.println(verify);
-        System.out.println();
-
     }
 
     @Test
