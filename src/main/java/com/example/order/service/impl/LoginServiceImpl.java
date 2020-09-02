@@ -33,7 +33,9 @@ public class LoginServiceImpl implements LoginService {
             }
             return gSysUser;
         }else {
+
             throw new LoginException("此用户不存在，请确认！！");
+
         }
     }
 }
