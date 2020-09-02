@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,10 +33,20 @@ public class UserServiceImpl implements UserService {
     private GSysUserMapper gSysUserMapper;
 
     @Override
-    public List<GSysMenu> getMenuList(Long userId) {
+    public Map<String,Object> getMenuList(Long userId) {
         List<GSysMenu> menuList = gSysMenuMapper.getMenuListForUserId(userId);
-
-        return gSysMenuMapper.getMenuListForUserId(userId);
+        Map<String,Object> result = new HashMap();
+        for (GSysMenu gSysMenu : menuList) {
+            if (gSysMenu.getParentId() == 0){
+                Map<String,Object> menus = new HashMap();
+                List<GSysMenu> list = gSysMenuMapper.getMenuListForParentId(gSysMenu.getMenuId());
+                for (GSysMenu sysMenu : list) {
+                    menus.put(sysMenu.getRemark(),sysMenu.getIsValid());
+                }
+                result.put(gSysMenu.getRemark(),menus);
+            }
+        }
+        return result;
     }
 
     @Override

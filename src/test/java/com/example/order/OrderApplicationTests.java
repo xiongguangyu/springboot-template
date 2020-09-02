@@ -53,18 +53,7 @@ class OrderApplicationTests {
     @Test
     public void test1(){
         Long userId = 5L;
-        List<GSysMenu> menuList = userService.getMenuList(userId);
-        Map<String,Object> result = new HashMap();
-        for (GSysMenu gSysMenu : menuList) {
-            if (gSysMenu.getParentId() == 0){
-                Map<String,Object> menus = new HashMap();
-                List<GSysMenu> list = gSysMenuMapper.getMenuListForParentId(gSysMenu.getMenuId());
-                for (GSysMenu sysMenu : list) {
-                    menus.put(sysMenu.getRemark(),sysMenu.getIsValid());
-                }
-                result.put(gSysMenu.getRemark(),menus);
-            }
-        }
+        Map<String, Object> menuList = userService.getMenuList(userId);
         System.out.println();
     }
 
