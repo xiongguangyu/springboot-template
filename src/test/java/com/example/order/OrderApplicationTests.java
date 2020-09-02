@@ -3,6 +3,7 @@ package com.example.order;
 import com.example.order.entity.GSysMenu;
 import com.example.order.entity.GSysUser;
 import com.example.order.mapper.GSysMenuMapper;
+import com.example.order.service.ExhibitionService;
 import com.example.order.service.TestService;
 import com.example.order.service.UserService;
 import com.example.order.utils.TokenUtil;
@@ -30,6 +31,9 @@ class OrderApplicationTests {
     @Autowired
     private GSysMenuMapper gSysMenuMapper;
 
+    @Autowired
+    ExhibitionService exhibitionService;
+
     @Test
     public void contextLoads() {
         testService.doLogin("1556677889","123456");
@@ -56,5 +60,11 @@ class OrderApplicationTests {
 
     }
 
+    @Test
+    public void test2(){
+        exhibitionService.addRich("<p>欢迎使用 <b>wangEdito牛博你OK</b></p><p><b>缪不i就</b></p>",1);
+        System.out.println();
+
+    }
 
 }
