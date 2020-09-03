@@ -36,6 +36,7 @@ public class TestServiceImpl implements TestService{
     public PageResult findPage(Long userId,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<GSysMenu> lists = gSysMenuMapper.getMenuListForUserId(userId);
-        return PageUtils.getPageResult(new PageInfo<GSysMenu>(lists));
+        PageInfo<GSysMenu> gSysMenuPageInfo = new PageInfo<>(lists);
+        return PageUtils.getPageResult(gSysMenuPageInfo);
     }
 }
