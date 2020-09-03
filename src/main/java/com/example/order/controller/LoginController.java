@@ -47,7 +47,7 @@ public class LoginController {
         return "login";
     }
 
-    @Value("${syspara.istest}")
+    @Value("${sysPara.isTest}")
     private String isTest;
 
 

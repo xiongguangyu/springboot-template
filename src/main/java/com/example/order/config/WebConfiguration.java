@@ -23,7 +23,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     private TokenInterceptor tokenInterceptor;
 
-    @Value("${syspara.istest}")
+    @Value("${sysPara.isTest}")
     private String isTest;
 
     //构造方法
