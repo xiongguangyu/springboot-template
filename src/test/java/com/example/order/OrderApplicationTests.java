@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -34,6 +35,9 @@ class OrderApplicationTests {
     @Autowired
     ExhibitionService exhibitionService;
 
+    @Value("${sysPara.isTest}")
+    private String isTest;
+
     @Test
     public void contextLoads() {
         testService.doLogin("1556677889","123456");
@@ -51,13 +55,12 @@ class OrderApplicationTests {
 
         System.out.println(sign);
         System.out.println(verify);
-
     }
 
     @Test
     public void test1(){
         Long userId = 5L;
-
+        System.out.println(isTest);
     }
 
     @Test
