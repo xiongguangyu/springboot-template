@@ -1,15 +1,20 @@
 package com.example.order.service;
 
-import com.example.order.entity.GSysUser;
+import com.example.order.entity.GSysMenu;
+import com.example.order.result.PageResult;
+
+import java.util.List;
 
 public interface TestService {
 
     /**
-     * 用户登录
-     * @param username 用户名
-     * @param password 用户登录密码
+     * 获取用户菜单权限
+     * @param userId
      * @return
      */
-    GSysUser doLogin(String username, String password);
+    List<GSysMenu> getMenus(Long userId);
+
+
+    PageResult findPage(Long userId,Integer pageNum,Integer pageSize);
 
 }

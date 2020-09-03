@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     protected static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Value("${syspara.defaultPassWord}")
+    @Value("${sysPara.defaultPassWord}")
     private String defaultPassWord;
 
     @Autowired

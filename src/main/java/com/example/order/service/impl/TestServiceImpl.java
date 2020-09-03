@@ -1,14 +1,19 @@
 package com.example.order.service.impl;
 
-import com.example.order.entity.GSysUser;
-import com.example.order.exception.LoginException;
+import com.example.order.entity.GSysMenu;
+import com.example.order.mapper.GSysMenuMapper;
 import com.example.order.mapper.GSysUserMapper;
+import com.example.order.result.PageResult;
 import com.example.order.service.TestService;
-import org.apache.commons.lang.StringUtils;
+import com.example.order.utils.PageUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TestServiceImpl implements TestService{
@@ -18,23 +23,20 @@ public class TestServiceImpl implements TestService{
     @Autowired
     private GSysUserMapper gSysUserMapper;
 
+    @Autowired
+    private GSysMenuMapper gSysMenuMapper;
+
+
     @Override
-    public GSysUser doLogin(String username, String password) throws LoginException{
-        GSysUser gSysUser = gSysUserMapper.loginUser(username);
-        if (gSysUser != null){
-            String passwordInDataBase = gSysUser.getPassword();
-            passwordInDataBase = passwordInDataBase == null ? "" : passwordInDataBase;
-            //校验密码是否正确
-            if (StringUtils.equals(password,passwordInDataBase)){
-                throw new LoginException("用户名或密码错误！");
-            }
-            //判断该用户状态
-            if (StringUtils.equals(gSysUser.getStatus(),"LOCKED")){
-                throw new LoginException("该用户已被禁用，请联系管理员！");
-            }
-            return gSysUser;
-        }else {
-            throw new LoginException("此用户不存在，请确认！！");
-        }
+    public List<GSysMenu> getMenus(Long userId) {
+        return gSysMenuMapper.getMenuListForUserId(userId);
+    }
+
+    @Override
+    public PageResult findPage(Long userId,Integer pageNum,Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<GSysMenu> lists = gSysMenuMapper.getMenuListForUserId(userId);
+        PageInfo<GSysMenu> gSysMenuPageInfo = new PageInfo<>(lists);
+        return PageUtils.getPageResult(gSysMenuPageInfo);
     }
 }
