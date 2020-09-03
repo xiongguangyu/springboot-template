@@ -40,7 +40,6 @@ class OrderApplicationTests {
 
     @Test
     public void contextLoads() {
-        testService.doLogin("1556677889","123456");
         System.out.println();
     }
 
