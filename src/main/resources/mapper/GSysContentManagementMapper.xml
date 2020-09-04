@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.order.mapper.GSysContentManagementMapper">
+  <resultMap id="BaseResultMap" type="com.example.order.entity.GSysContentManagement">
+    <id column="CONTENT_ID" jdbcType="BIGINT" property="contentId" />
+    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="SORT" jdbcType="BIGINT" property="sort" />
+    <result column="RELEASE_STATUS" jdbcType="CHAR" property="releaseStatus" />
+    <result column="IS_VALID" jdbcType="CHAR" property="isValid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CONTENT_ID, USER_ID, CONTENT, REMARKS, URL, SORT, RELEASE_STATUS, IS_VALID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from g_sys_content_management
+    where CONTENT_ID = #{contentId,jdbcType=BIGINT}
+  </select>
+  <insert id="insertSelective" parameterType="com.example.order.entity.GSysContentManagement">
+    insert into g_sys_content_management
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="contentId != null">
+        CONTENT_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+      <if test="sort != null">
+        SORT,
+      </if>
+      <if test="releaseStatus != null">
+        RELEASE_STATUS,
+      </if>
+      <if test="isValid != null">
+        IS_VALID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="contentId != null">
+        #{contentId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="releaseStatus != null">
+        #{releaseStatus,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.order.entity.GSysContentManagement">
+    update g_sys_content_management
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="releaseStatus != null">
+        RELEASE_STATUS = #{releaseStatus,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null">
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+    </set>
+    where CONTENT_ID = #{contentId,jdbcType=BIGINT}
+  </update>
+</mapper>
