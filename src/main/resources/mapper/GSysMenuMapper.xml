@@ -8,9 +8,10 @@
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
     <result column="IS_VALID" jdbcType="CHAR" property="isValid" />
+    <result column="SORT" jdbcType="BIGINT" property="sort" />
   </resultMap>
   <sql id="Base_Column_List">
-    MENU_ID, MENU_NAME, REMARK, PARENT_ID, IS_VALID
+    MENU_ID, MENU_NAME, REMARK, PARENT_ID, IS_VALID, SORT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
@@ -91,4 +92,22 @@
     from g_sys_menu
     where PARENT_ID = #{parentId,jdbcType=INTEGER}
   </select>
+  <select id="getMenuByMenuId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from g_sys_menu
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </select>
+  <update id="UpdateByMenuId" parameterType="com.example.order.entity.GSysMenu" useGeneratedKeys="true" keyProperty="menuId">
+    update g_sys_menu
+    <set>
+      <if test="isValid != null">
+        IS_VALID = #{isValid,jdbcType=CHAR}
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </update>
+
+
+
 </mapper>

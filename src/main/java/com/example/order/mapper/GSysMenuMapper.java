@@ -1,6 +1,7 @@
 package com.example.order.mapper;
 
 import com.example.order.entity.GSysMenu;
+import com.example.order.entity.GSysUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -27,4 +28,7 @@ public interface GSysMenuMapper {
      */
     List<GSysMenu> getMenuListForParentId(@Param("parentId") Long parentId);
 
+    int UpdateByMenuId(GSysMenu GSysMenu);
+
+    List<GSysMenu> getMenuByMenuId(String menuId);
 }

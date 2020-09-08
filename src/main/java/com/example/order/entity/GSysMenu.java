@@ -21,4 +21,6 @@ public class GSysMenu implements Serializable {
 
     private String isValid;
 
+    private Long sort;
+
 }
