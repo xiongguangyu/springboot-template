@@ -1,8 +1,9 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
-import com.example.order.entity.GSysAnnouncementManagement;
+import com.example.order.entity.GSysJournalism;
 import com.example.order.exception.LoginException;
+import com.example.order.service.JournalismService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.order.service.AnnouncementManagementService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,10 +29,10 @@ import java.util.Map;
  */
 @Controller
 //@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
-@RequestMapping("/api/announcement")
-public class AnnouncementController {
+@RequestMapping("/api/journalism")
+public class JournalismController {
 
-    protected static final Logger logger = LoggerFactory.getLogger(AnnouncementController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(JournalismController.class);
 
 
 
@@ -40,22 +40,23 @@ public class AnnouncementController {
     private String isTest;
 
     @Autowired
-    AnnouncementManagementService announcement;
+    JournalismService JournalismService;
 
 
-    @RequestMapping(value = "/getAnnouncementInfo",method = RequestMethod.GET)
-    public void testLogin(@RequestParam(value = "announcementId",required = false) String announcementId,
+    @RequestMapping(value = "/getNewsList",method = RequestMethod.GET)
+    public void testLogin(@RequestParam("journalismId") String journalismId,
+                          @RequestParam(value = "loginCode",required = false) String loginCode,
                           HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> res = new HashMap<String, Object>();
 
         try {
-            List<GSysAnnouncementManagement> GSysAnnouncement= announcement.getAnnouncementInfo(announcementId);
+            List<GSysJournalism> GSysJournalism= JournalismService.getNewsList(journalismId);
 
                //res.put(Constant.RESPONSE_DATA, gSysUser);
                res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
                //res.put(Constant.RESPONSE_CODE_MSG, "删除成功!");
-                 res.put(Constant.RESPONSE_DATA, GSysAnnouncement);
+                 res.put(Constant.RESPONSE_DATA, GSysJournalism);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
