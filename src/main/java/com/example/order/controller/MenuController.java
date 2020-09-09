@@ -4,12 +4,8 @@ import com.example.order.common.Constant;
 
 import com.example.order.entity.GSysMenu;
 import com.example.order.exception.LoginException;
-import com.example.order.service.LoginService;
-import com.example.order.service.menuService;
+import com.example.order.service.MenuService;
 import com.example.order.utils.ServletUtils;
-import com.example.order.utils.TokenUtil;
-import com.example.order.vo.ValidateCodeVo;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +32,12 @@ import java.util.Map;
 @Controller
 //@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
 @RequestMapping("/api/menu")
-public class menuController {
+public class MenuController {
 
-    protected static final Logger logger = LoggerFactory.getLogger(menuController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
     @Autowired
-    menuService menuService;
+    MenuService menuService;
 
     @Value("${sysPara.isTest}")
     private String isTest;

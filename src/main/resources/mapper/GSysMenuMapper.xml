@@ -98,7 +98,7 @@
     from g_sys_menu
     where MENU_ID = #{menuId,jdbcType=BIGINT}
   </select>
-  <update id="UpdateByMenuId" parameterType="com.example.order.entity.GSysMenu" useGeneratedKeys="true" keyProperty="menuId">
+  <update id="updateByMenuId" parameterType="com.example.order.entity.GSysMenu" useGeneratedKeys="true" keyProperty="menuId">
     update g_sys_menu
     <set>
       <if test="isValid != null">

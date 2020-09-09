@@ -28,7 +28,7 @@ public interface GSysMenuMapper {
      */
     List<GSysMenu> getMenuListForParentId(@Param("parentId") Long parentId);
 
-    int UpdateByMenuId(GSysMenu GSysMenu);
+    int updateByMenuId(GSysMenu GSysMenu);
 
     List<GSysMenu> getMenuByMenuId(String menuId);
 }
