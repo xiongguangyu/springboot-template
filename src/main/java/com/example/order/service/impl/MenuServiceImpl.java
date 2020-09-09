@@ -1,10 +1,9 @@
 package com.example.order.service.impl;
 
-import com.example.order.entity.GSysContentManagement;
 import com.example.order.entity.GSysMenu;
 import com.example.order.exception.LoginException;
 import com.example.order.mapper.GSysMenuMapper;
-import com.example.order.service.menuService;
+import com.example.order.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class menuServiceImpl implements menuService {
+public class MenuServiceImpl implements MenuService {
 
-    protected static final Logger logger = LoggerFactory.getLogger(menuServiceImpl.class);
+    protected static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Autowired
     private GSysMenuMapper GSysMenuMapper;
@@ -28,7 +27,7 @@ public class menuServiceImpl implements menuService {
         GSysMenu.setMenuId(menuid);
         GSysMenu.setIsValid("0");
         try {
-            int count = GSysMenuMapper.UpdateByMenuId(GSysMenu);
+            int count = GSysMenuMapper.updateByMenuId(GSysMenu);
             if(count >0){
                 return true;
             }
