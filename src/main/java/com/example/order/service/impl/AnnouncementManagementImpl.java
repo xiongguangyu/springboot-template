@@ -1,6 +1,5 @@
 package com.example.order.service.impl;
 
-import com.example.order.entity.GSysContentManagement;
 import com.example.order.entity.GSysMenu;
 import com.example.order.exception.LoginException;
 import com.example.order.mapper.GSysMenuMapper;
@@ -13,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class menuServiceImpl implements menuService {
+public class AnnouncementManagementImpl implements menuService {
 
-    protected static final Logger logger = LoggerFactory.getLogger(menuServiceImpl.class);
+    protected static final Logger logger = LoggerFactory.getLogger(AnnouncementManagementImpl.class);
 
     @Autowired
     private GSysMenuMapper GSysMenuMapper;

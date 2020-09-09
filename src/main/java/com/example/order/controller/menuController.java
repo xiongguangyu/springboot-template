@@ -29,7 +29,7 @@ import java.util.Map;
 
 /**
  * @ClassName LoginController
- * @Description 用户登录Controller
+ * @Description 菜单Controller
  * @Author xionggy
  * @Date 2020/8/27
  * @Version 1.0
