@@ -4,7 +4,7 @@ import com.example.order.entity.GSysMenu;
 
 import java.util.List;
 
-public interface menuService {
+public interface MenuService {
 
     /**
      * 用户登录
