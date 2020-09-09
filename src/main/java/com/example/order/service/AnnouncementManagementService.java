@@ -8,8 +8,8 @@ import java.util.List;
 public interface AnnouncementManagementService {
 
     /**
-     * 用户登录
-     * @param menuId 菜单id
+     * 公告
+     * @param announcementId 公告id
      * @return
      */
 

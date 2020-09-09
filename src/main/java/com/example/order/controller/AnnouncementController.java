@@ -2,10 +2,7 @@ package com.example.order.controller;
 
 import com.example.order.common.Constant;
 import com.example.order.entity.GSysAnnouncementManagement;
-import com.example.order.entity.GSysMenu;
 import com.example.order.exception.LoginException;
-import com.example.order.service.AnnouncementManagementService;
-import com.example.order.service.menuService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.example.order.service.AnnouncementManagementService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,18 +29,18 @@ import java.util.Map;
  */
 @Controller
 //@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
-@RequestMapping("/api/homepage")
+@RequestMapping("/api/announcement")
 public class AnnouncementController {
 
     protected static final Logger logger = LoggerFactory.getLogger(AnnouncementController.class);
 
-    @Autowired
-    AnnouncementManagementService AnnouncementManagementService;
+
 
     @Value("${sysPara.isTest}")
     private String isTest;
 
-
+    @Autowired
+    AnnouncementManagementService AnnouncementManagementService;
 
 
     @RequestMapping(value = "/getAnnouncementInfo",method = RequestMethod.POST)
