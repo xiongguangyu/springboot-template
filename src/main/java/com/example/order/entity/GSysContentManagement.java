@@ -17,7 +17,11 @@ public class GSysContentManagement implements Serializable {
 
     private String content;
 
-    private String remarks;
+    private String contentUrl;
+
+    private String remark;
+
+    private String creatTime;
 
     private String url;
 
