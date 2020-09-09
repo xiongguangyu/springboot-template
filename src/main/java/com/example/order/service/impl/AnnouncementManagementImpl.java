@@ -1,16 +1,14 @@
 package com.example.order.service.impl;
 
 import com.example.order.entity.GSysAnnouncementManagement;
-import com.example.order.exception.LoginException;
 import com.example.order.mapper.GSysAnnouncementManagementMapper;
 import com.example.order.service.AnnouncementManagementService;
-import com.example.order.service.menuService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import com.example.order.controller.AnnouncementController;
 
 @Service
 public class AnnouncementManagementImpl implements AnnouncementManagementService {
@@ -20,11 +18,8 @@ public class AnnouncementManagementImpl implements AnnouncementManagementService
     @Autowired
     private GSysAnnouncementManagementMapper  GSysAnnouncementManagementMapper;
 
-
     @Override
-    public List<GSysAnnouncementManagement> getAnnouncementInfo(String announcementId) {
-        long id = Long.parseLong(announcementId);
-        return GSysAnnouncementManagementMapper.getAnnouncementInfo(id);
-
+    public GSysAnnouncementManagement getAnnouncementInfo(Long announcementId) {
+        return GSysAnnouncementManagementMapper.getAnnouncementInfo(announcementId).get(0);
     }
 }

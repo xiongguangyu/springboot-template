@@ -12,6 +12,5 @@ public interface AnnouncementManagementService {
      * @param announcementId 公告id
      * @return
      */
-
-    List<GSysAnnouncementManagement> getAnnouncementInfo(String announcementId);
+    GSysAnnouncementManagement getAnnouncementInfo(Long announcementId);
 }
