@@ -5,14 +5,16 @@
     <id column="CONTENT_ID" jdbcType="BIGINT" property="contentId" />
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
-    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="CONTENT_URL" jdbcType="VARCHAR" property="contentUrl" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATTIME" jdbcType="VARCHAR" property="creatTime" />
     <result column="URL" jdbcType="VARCHAR" property="url" />
     <result column="SORT" jdbcType="BIGINT" property="sort" />
     <result column="RELEASE_STATUS" jdbcType="CHAR" property="releaseStatus" />
     <result column="IS_VALID" jdbcType="CHAR" property="isValid" />
   </resultMap>
   <sql id="Base_Column_List">
-    CONTENT_ID, USER_ID, CONTENT, REMARKS, URL, SORT, RELEASE_STATUS, IS_VALID
+    CONTENT_ID, USER_ID, CONTENT, REMARK, URL, SORT, RELEASE_STATUS, IS_VALID, CREATTIME, CONTENT_URL
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -32,8 +34,11 @@
       <if test="content != null">
         CONTENT,
       </if>
-      <if test="remarks != null">
-        REMARKS,
+      <if test="contentUrl != null">
+        CONTENT_URL,
+      </if>
+      <if test="remark != null">
+        REMARK,
       </if>
       <if test="url != null">
         URL,
@@ -58,8 +63,11 @@
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="remarks != null">
-        #{remarks,jdbcType=VARCHAR},
+      <if test="contentUrl != null">
+        #{CONTENT_URL,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
@@ -84,8 +92,11 @@
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="remarks != null">
-        REMARKS = #{remarks,jdbcType=VARCHAR},
+      <if test="contentUrl != null">
+        CONTENT_URL = #{contentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         URL = #{url,jdbcType=VARCHAR},
@@ -102,4 +113,12 @@
     </set>
     where CONTENT_ID = #{contentId,jdbcType=BIGINT}
   </update>
+
+  <select id="getBannerList"  resultMap="BaseResultMap">
+    SELECT
+      a.CONTENT_ID,a.CONTENT_URL
+    FROM
+      g_sys_content_management a
+    ORDER BY a.SORT desc
+  </select>
 </mapper>
