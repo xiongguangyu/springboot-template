@@ -44,18 +44,14 @@ public class AnnouncementController {
 
 
     @RequestMapping(value = "/getAnnouncementInfo",method = RequestMethod.GET)
-    public void testLogin(@RequestParam(value = "announcementId",required = false) String announcementId,
+    public void testLogin(@RequestParam(value = "announcementId") Long announcementId,
                           HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> res = new HashMap<String, Object>();
-
         try {
-            List<GSysAnnouncementManagement> GSysAnnouncement= announcement.getAnnouncementInfo(announcementId);
-
-               //res.put(Constant.RESPONSE_DATA, gSysUser);
-               res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-               //res.put(Constant.RESPONSE_CODE_MSG, "删除成功!");
-                 res.put(Constant.RESPONSE_DATA, GSysAnnouncement);
+            GSysAnnouncementManagement gSysAnnouncementManagement= announcement.getAnnouncementInfo(announcementId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, gSysAnnouncementManagement);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
