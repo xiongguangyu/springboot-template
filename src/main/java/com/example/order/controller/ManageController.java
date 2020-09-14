@@ -2,13 +2,11 @@ package com.example.order.controller;
 
 import com.example.order.common.Constant;
 import com.example.order.exception.LoginException;
-import com.example.order.mapper.GSysManageMapper;
 import com.example.order.service.ManageService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,22 +27,14 @@ import java.util.Map;
  * @Version 1.0
  */
 @Controller
-//@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
 @RequestMapping("/api/vchart/manage")
 public class ManageController {
 
     protected static final Logger logger = LoggerFactory.getLogger(ManageController.class);
 
-
-
-    @Value("${sysPara.isTest}")
-    private String isTest;
-
     @Autowired
     ManageService manageService;
 
-    @Autowired
-    private GSysManageMapper gSysManageMapper;
 
     @RequestMapping(value = "/getList",method = RequestMethod.GET)
     public void getList(@RequestParam("objId") Long objId,

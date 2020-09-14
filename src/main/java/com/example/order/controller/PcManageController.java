@@ -30,22 +30,13 @@ import java.util.Map;
  * @Version 1.0
  */
 @Controller
-//@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
 @RequestMapping("/api/manage")
 public class PcManageController {
 
     protected static final Logger logger = LoggerFactory.getLogger(PcManageController.class);
 
-
-
-    @Value("${sysPara.isTest}")
-    private String isTest;
-
     @Autowired
     ManageService manageService;
-
-    @Autowired
-    private GSysManageMapper gSysManageMapper;
 
     @RequestMapping(value = "/getList",method = RequestMethod.GET)
     public void getList(@RequestParam("objId") Long objId,

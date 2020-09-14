@@ -9,7 +9,6 @@ import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +29,6 @@ import java.util.Map;
  * @Version 1.0
  */
 @Controller
-//@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
 @RequestMapping("/api/menu")
 public class MenuController {
 
@@ -38,12 +36,6 @@ public class MenuController {
 
     @Autowired
     MenuService menuService;
-
-    @Value("${sysPara.isTest}")
-    private String isTest;
-
-
-
 
     @RequestMapping(value = "/doDelete",method = RequestMethod.POST)
     public void testLogin(@RequestParam("menuId") String menuId,
