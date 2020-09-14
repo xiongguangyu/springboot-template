@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Controller
 //@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
-@RequestMapping("/api/vchart/Manage")
+@RequestMapping("/api/vchart/manage")
 public class ManageController {
 
     protected static final Logger logger = LoggerFactory.getLogger(ManageController.class);

@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Controller
 //@CrossOrigin(origins = { "*" }, allowedHeaders = { "*" }, allowCredentials = "true", methods = { RequestMethod.POST })
-@RequestMapping("/api/Manage")
+@RequestMapping("/api/manage")
 public class PcManageController {
 
     protected static final Logger logger = LoggerFactory.getLogger(PcManageController.class);

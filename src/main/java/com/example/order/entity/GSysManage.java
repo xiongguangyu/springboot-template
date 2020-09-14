@@ -3,31 +3,38 @@ package com.example.order.entity;
 import lombok.*;
 
 import java.io.Serializable;
-
+import java.util.Date;
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GSysContentManagement implements Serializable {
+public class GSysManage implements Serializable {
 
-    private Long contentId;
+    private Long objId;
 
     private Long userId;
 
+    private String title;
+
+    private String type;
+
     private String content;
 
-    private String contentUrl;
-
-    private String remark;
-
-    private String creatTime;
-
     private String url;
+
+    private Date creattime;
+
+    private Date releasetime;
+
+    private Long readnum;
 
     private Long sort;
 
     private String releaseStatus;
 
     private String isValid;
+
+    private String isDel;
+
 }
