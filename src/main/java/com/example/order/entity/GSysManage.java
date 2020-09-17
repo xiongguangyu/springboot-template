@@ -23,7 +23,7 @@ public class GSysManage implements Serializable {
 
     private String url;
 
-    private Date creattime;
+    private String creattime;
 
     private Date releasetime;
 

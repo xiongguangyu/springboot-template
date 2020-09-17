@@ -53,4 +53,15 @@ public class ManageServiceImpl implements ManageService {
             throw new AddUserException("修改失败");
         }
     }
+
+
+    @Override
+    public void doDelete(String objId) {
+        try {
+            gSysManageMapper.updateIsdelByOId(objId);
+        } catch (Exception e) {
+            logger.error("修改失败!");
+            throw new AddUserException("修改失败");
+        }
+    }
 }
