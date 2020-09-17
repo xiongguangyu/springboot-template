@@ -19,4 +19,6 @@ public interface GSysManageMapper {
     int updateByPrimaryKey(GSysManage record);
 
     void updateByPrimaryKeySelective(GSysManage gSysManage);
+
+    void updateIsdelByOId(String objId);
 }

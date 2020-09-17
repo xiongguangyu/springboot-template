@@ -19,4 +19,6 @@ public interface ManageService {
     void addInfo(GSysManage gSysManage)  throws AddUserException;
 
     void updateList(GSysManage gSysManage);
+
+    void doDelete(String objId);
 }

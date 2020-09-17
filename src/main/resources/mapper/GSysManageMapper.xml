@@ -39,7 +39,7 @@
     select 
     <include refid="Base_Column_List" />
     from g_sys_manage
-    where OBJ_ID = #{objId,jdbcType=BIGINT} and TYPE = #{type,jdbcType=CHAR} and IS_VALID = '1' and IS_DEL = '1' order by sort
+    where OBJ_ID = #{objId,jdbcType=BIGINT} and TYPE = #{type,jdbcType=CHAR}  and IS_DEL = '1' order by sort
   </select>
 
   <select id="getInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -51,7 +51,7 @@
     select
     <include refid="Base_Column_List" />
     from g_sys_manage
-    where  TYPE = #{type,jdbcType=CHAR} and IS_VALID = '1' and IS_DEL = '1' order by sort
+    where  TYPE = #{type,jdbcType=CHAR}  and IS_DEL = '1' order by sort
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
@@ -145,7 +145,7 @@
         #{url,jdbcType=VARCHAR},
       </if>
       <if test="creattime != null">
-        #{creattime,jdbcType=TIMESTAMP},
+        DATE_FORMAT(#{creattime},'%Y-%m-%d %H:%i:%s'),
       </if>
       <if test="releasetime != null">
         #{releasetime,jdbcType=TIMESTAMP},
@@ -161,6 +161,9 @@
       </if>
       <if test="isValid != null">
         #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -179,7 +182,7 @@
         TYPE = #{type,jdbcType=CHAR},
       </if>
       <if test="title != null">
-        #{title,jdbcType=VARCHAR},
+        TITLE = #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
@@ -194,7 +197,7 @@
         RELEASETIME = #{releasetime,jdbcType=TIMESTAMP},
       </if>
       <if test="readnum != null">
-        #{readnum,jdbcType=BIGINT},
+        READNUM = #{readnum,jdbcType=BIGINT},
       </if>
       <if test="sort != null">
         SORT = #{sort,jdbcType=BIGINT},
@@ -230,6 +233,12 @@
       RELEASE_STATUS = #{releaseStatus,jdbcType=CHAR},
       IS_VALID = #{isValid,jdbcType=CHAR},
       IS_DEL = #{isDel,jdbcType=CHAR}
+    where OBJ_ID = #{objId,jdbcType=BIGINT}
+  </update>
+  <update id="updateIsdelByOId">
+    update g_sys_manage
+    set
+    IS_DEL = '0'
     where OBJ_ID = #{objId,jdbcType=BIGINT}
   </update>
 </mapper>

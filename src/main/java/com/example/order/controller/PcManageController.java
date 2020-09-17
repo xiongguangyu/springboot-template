@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +41,7 @@ public class PcManageController {
     @Autowired
     ManageService manageService;
 
-    @RequestMapping(value = "/getList",method = RequestMethod.GET)
+    @RequestMapping(value = "/getList",method = RequestMethod.POST)
     public void getList(@RequestParam("objId") Long objId,
                             @RequestParam("type") String type,
                             HttpServletRequest request, HttpServletResponse response){
@@ -56,7 +59,7 @@ public class PcManageController {
 
     }
 
-    @RequestMapping(value = "/getInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/getInfo",method = RequestMethod.POST)
     public void getInfo(@RequestParam("type") String type,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
@@ -73,7 +76,7 @@ public class PcManageController {
 
     }
 
-    @RequestMapping(value = "/addList",method = RequestMethod.GET)
+    @RequestMapping(value = "/addList",method = RequestMethod.POST)
     public void addList(@RequestBody GSysManage gSysManage,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
@@ -90,7 +93,7 @@ public class PcManageController {
 
     }
 
-    @RequestMapping(value = "/updateList",method = RequestMethod.GET)
+    @RequestMapping(value = "/updateList",method = RequestMethod.POST)
     public void updateList(@RequestBody GSysManage gSysManage,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
@@ -106,5 +109,19 @@ public class PcManageController {
         }
 
     }
-
+    @RequestMapping(value = "/doDelete",method = RequestMethod.POST)
+    public void doDelete(@RequestParam("objId") String objId,
+                         HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            manageService.doDelete(objId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
+            ServletUtils.writeToResponse(response,res);
+        }
+    }
 }
