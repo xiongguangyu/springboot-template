@@ -21,7 +21,7 @@ import java.util.Random;
  * 图片上传Controller
  */
 @Controller
-@RequestMapping("/api/common")
+@RequestMapping("/api/vchart/common")
 public class CommonController {
     @RequestMapping(value = "/uploadImg",method = RequestMethod.POST)
     public void uploadPicture(@RequestParam(value="file",required=false) MultipartFile file,

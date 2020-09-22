@@ -33,8 +33,14 @@ public class GSysManage implements Serializable {
 
     private String releaseStatus;
 
+    private String examineStatus;
+
     private String isValid;
 
     private String isDel;
+
+    private String remark;
+
+    private String userName;
 
 }

@@ -26,8 +26,11 @@ public class GSysUser implements Serializable {
 
     private Date lastLoginTime;
 
-    private String wechatOpenid;
+    private String token;
+
+    private String userName;
 
     private String token;
+
 
 }
