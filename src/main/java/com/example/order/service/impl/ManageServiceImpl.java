@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.order.entity.GSysManage;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManageServiceImpl implements ManageService {
@@ -25,9 +26,6 @@ public class ManageServiceImpl implements ManageService {
         GSysManage gSysManage = null;
         try {
             gSysManage = gSysManageMapper.getInfo(objId, type);
-            Long readNum = gSysManage.getReadnum();
-            gSysManage.setReadnum(readNum + 1);
-            gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -69,6 +67,20 @@ public class ManageServiceImpl implements ManageService {
             logger.error("修改失败!");
             throw new AddUserException("修改失败");
         }
+    }
+
+    @Override
+    public List<GSysManage> getManageList(String type, String searchContent) {
+
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getManageInfo(Long objId, String type) {
+        /*Long readNum = gSysManage.getReadnum();
+        gSysManage.setReadnum(readNum + 1);
+        gSysManageMapper.updateByPrimaryKeySelective(gSysManage);*/
+        return null;
     }
 
     @Override

@@ -71,39 +71,5 @@ public class ManageController {
 
     }
 
-    @RequestMapping(value = "/addList",method = RequestMethod.GET)
-    public void addList(@RequestBody GSysManage gSysManage,
-                            HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> res = new HashMap<String, Object>();
-        try {
-            manageService.addInfo(gSysManage);
-            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
-            ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
-            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
-            ServletUtils.writeToResponse(response,res);
-        }
-
-    }
-
-    @RequestMapping(value = "/updateList",method = RequestMethod.GET)
-    public void updateList(@RequestBody GSysManage gSysManage,
-                            HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> res = new HashMap<String, Object>();
-        try {
-            manageService.updateList(gSysManage);
-            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
-            ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
-            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
-            ServletUtils.writeToResponse(response,res);
-        }
-
-    }
-
 
 }
