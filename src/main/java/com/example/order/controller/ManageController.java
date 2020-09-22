@@ -55,11 +55,11 @@ public class ManageController {
     }
 
     @RequestMapping(value = "/getInfo",method = RequestMethod.GET)
-    public void getInfo(@RequestParam("type") String type,
+    public void getInfo(@RequestParam("type") String type,@RequestParam(value="searchContent",required=false)String searchContent,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysManage> gSysManage= manageService.getInfo(type);
+            List<GSysManage> gSysManage= manageService.getInfo(type,searchContent);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManage);
             ServletUtils.writeToResponse(response, res);

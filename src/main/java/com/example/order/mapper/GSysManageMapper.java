@@ -8,7 +8,7 @@ public interface GSysManageMapper {
 
     GSysManage getList(Long objId,String type);
 
-    List<GSysManage> getInfo(String type);
+    List<GSysManage> getInfo(String type,String searchContent);
 
     int deleteByPrimaryKey(Long objId);
 
