@@ -124,4 +124,27 @@ public class PcManageController {
             ServletUtils.writeToResponse(response,res);
         }
     }
+    @RequestMapping(value = "/selectByOId",method = RequestMethod.POST)
+    public void selectByOId(@RequestParam("objId") Long objId,
+                            @RequestParam("exaId") String exaId,
+                            @RequestParam("remark") String remark,
+                         HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            boolean b = manageService.reviewById(objId, exaId, remark);
+            if (b){
+                res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+                res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
+                ServletUtils.writeToResponse(response, res);
+            }else {
+                res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+                res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
+                ServletUtils.writeToResponse(response, res);
+            }
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
+            ServletUtils.writeToResponse(response,res);
+        }
+    }
 }

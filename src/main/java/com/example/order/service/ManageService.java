@@ -21,4 +21,6 @@ public interface ManageService {
     void updateList(GSysManage gSysManage);
 
     void doDelete(String objId);
+
+    boolean reviewById(Long objId,String exaId,String remark);
 }
