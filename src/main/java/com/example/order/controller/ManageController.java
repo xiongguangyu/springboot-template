@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * @ClassName ManageController
- * @Description 小程序端首页公告,新闻，轮播图Controller
+ * @Description 小程序端Controller
  * @Author xionggy
  * @Date 2020/9/10
  * @Version 1.0
@@ -34,6 +34,13 @@ public class ManageController {
     @Autowired
     ManageService manageService;
 
+    /**
+     * 小程序首页轮播图，公告，新闻列表
+     * @param type
+     * @param searchContent
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "/getList",method = RequestMethod.GET)
     public void getInfo(@RequestParam("type") String type,@RequestParam(value="searchContent",required=false)String searchContent,
                         HttpServletRequest request, HttpServletResponse response){
@@ -50,6 +57,13 @@ public class ManageController {
         }
     }
 
+    /**
+     * 小程序首页轮播图，公告，新闻详细信息
+     * @param objId
+     * @param type
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "/getInfo",method = RequestMethod.GET)
     public void getList(@RequestParam("objId") Long objId,
                             @RequestParam("type") String type,
