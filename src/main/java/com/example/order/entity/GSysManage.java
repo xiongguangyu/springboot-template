@@ -37,4 +37,6 @@ public class GSysManage implements Serializable {
 
     private String isDel;
 
+    private String userName;
+
 }

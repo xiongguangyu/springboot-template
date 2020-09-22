@@ -1,6 +1,8 @@
 package com.example.order.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.example.order.entity.GSysManage;
 import com.example.order.exception.AddUserException;
 import com.example.order.mapper.GSysManageMapper;
@@ -21,4 +23,20 @@ public interface ManageService {
     void updateList(GSysManage gSysManage);
 
     void doDelete(String objId);
+
+    /**
+     * 小程序端获取首页轮播图，公告，新闻列表
+     * @param type
+     * @param searchContent
+     * @return
+     */
+    List<GSysManage> getManageList(String type,String searchContent);
+
+    /**
+     * 小程序端获取首页轮播图，公告，新闻详细信息
+     * @param objId
+     * @param type
+     * @return
+     */
+    Map<String,Object> getManageInfo(Long objId,String type);
 }
