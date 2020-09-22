@@ -14,7 +14,7 @@ public interface ManageService {
      */
     GSysManage getList(Long objId,String type);
 
-    List<GSysManage> getInfo(String type);
+    List<GSysManage> getInfo(String type,String searchContent);
 
     void addInfo(GSysManage gSysManage)  throws AddUserException;
 

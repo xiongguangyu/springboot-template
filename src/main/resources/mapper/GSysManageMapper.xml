@@ -51,7 +51,7 @@
     select
     <include refid="Base_Column_List" />
     from g_sys_manage
-    where  TYPE = #{type,jdbcType=CHAR}  and IS_DEL = '1' order by sort
+    where  TYPE = #{type,jdbcType=CHAR} and (TITLE like concat('%','${searchContent}','%') or CONTENT like concat('%','${searchContent}','%')) and IS_DEL = '1' order by sort
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
