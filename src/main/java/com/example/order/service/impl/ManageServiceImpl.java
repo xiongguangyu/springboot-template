@@ -1,6 +1,5 @@
 package com.example.order.service.impl;
 
-import com.example.order.entity.GSysUser;
 import com.example.order.exception.AddUserException;
 import com.example.order.mapper.GSysManageMapper;
 import com.example.order.service.ManageService;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.order.entity.GSysManage;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,14 +21,22 @@ public class ManageServiceImpl implements ManageService {
     private GSysManageMapper  gSysManageMapper;
 
     @Override
-    public GSysManage getList(@Param("objId")Long objId,@Param("type")String type) {
-        return gSysManageMapper.getList(objId,type);
-
+    public GSysManage getInfo(@Param("objId")Long objId,@Param("type")String type) {
+        GSysManage gSysManage = null;
+        try {
+            gSysManage = gSysManageMapper.getInfo(objId, type);
+            Long readNum = gSysManage.getReadnum();
+            gSysManage.setReadnum(readNum + 1);
+            gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return gSysManage;
     }
 
     @Override
-    public List<GSysManage> getInfo(@Param("type")String type,@Param("searchContent")String searchContent) {
-        return gSysManageMapper.getInfo(type,searchContent);
+    public List<GSysManage> getList(@Param("type")String type,@Param("searchContent")String searchContent) {
+        return gSysManageMapper.getList(type,searchContent);
 
     }
 
