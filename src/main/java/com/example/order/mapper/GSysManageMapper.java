@@ -26,5 +26,7 @@ public interface GSysManageMapper {
 
     void updateIsdelByOId(String objId);
 
+    GSysManage selectByPrimaryKey(Long objId);
+
     List<GSysManage> getManageList(@Param("type") String type, @Param("searchContent") String searchContent);
 }

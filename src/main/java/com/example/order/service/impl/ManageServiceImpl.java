@@ -82,4 +82,19 @@ public class ManageServiceImpl implements ManageService {
         gSysManageMapper.updateByPrimaryKeySelective(gSysManage);*/
         return null;
     }
+
+    @Override
+    public boolean reviewById(Long objId,String exaId,String remark) {
+        try {
+            GSysManage gSysManage = gSysManageMapper.selectByPrimaryKey(objId);
+
+            gSysManage.setExamineStatus(exaId);
+            gSysManage.setRemark(remark);
+            gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }

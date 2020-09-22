@@ -24,6 +24,8 @@ public interface ManageService {
 
     void doDelete(String objId);
 
+    boolean reviewById(Long objId,String exaId,String remark);
+
     /**
      * 小程序端获取首页轮播图，公告，新闻列表
      * @param type
