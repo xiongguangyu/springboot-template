@@ -1,14 +1,16 @@
 package com.example.order.mapper;
 
 import com.example.order.entity.GSysManage;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface GSysManageMapper {
 
-    GSysManage getList(Long objId,String type);
+    GSysManage getInfo(Long objId,String type);
 
-    List<GSysManage> getInfo(String type);
+    List<GSysManage> getList(String type,String searchContent);
 
     int deleteByPrimaryKey(Long objId);
 

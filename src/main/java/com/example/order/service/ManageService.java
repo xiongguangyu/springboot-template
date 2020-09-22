@@ -12,9 +12,9 @@ public interface ManageService {
      * @param objId id
      * @return
      */
-    GSysManage getList(Long objId,String type);
+    GSysManage getInfo(Long objId,String type);
 
-    List<GSysManage> getInfo(String type);
+    List<GSysManage> getList(String type,String searchContent);
 
     void addInfo(GSysManage gSysManage)  throws AddUserException;
 
