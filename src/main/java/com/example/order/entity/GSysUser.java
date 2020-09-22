@@ -26,6 +26,8 @@ public class GSysUser implements Serializable {
 
     private Date lastLoginTime;
 
+    private String token;
+
     private String userName;
 
 }
