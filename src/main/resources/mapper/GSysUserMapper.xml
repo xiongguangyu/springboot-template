@@ -9,11 +9,11 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="PWD_UPT_TIME" jdbcType="TIMESTAMP" property="pwdUptTime" />
     <result column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP" property="lastLoginTime" />
-    <result column="WECHAT_OPENID" jdbcType="VARCHAR" property="wechatOpenid" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
   </resultMap>
   <sql id="Base_Column_List">
     USER_ID, LOGIN_NAME, PASSWORD, STATUS, CREATE_TIME, PWD_UPT_TIME, LAST_LOGIN_TIME,
-    WECHAT_OPENID
+    USER_NAME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -45,8 +45,8 @@
       <if test="lastLoginTime != null">
         LAST_LOGIN_TIME,
       </if>
-      <if test="wechatOpenid != null">
-        WECHAT_OPENID,
+      <if test="userName != null">
+        USER_NAME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -71,8 +71,8 @@
       <if test="lastLoginTime != null">
         #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="wechatOpenid != null">
-        #{wechatOpenid,jdbcType=VARCHAR},
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -97,8 +97,8 @@
       <if test="lastLoginTime != null">
         LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="wechatOpenid != null">
-        WECHAT_OPENID = #{wechatOpenid,jdbcType=VARCHAR},
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
       </if>
     </set>
     where USER_ID = #{userId,jdbcType=BIGINT}

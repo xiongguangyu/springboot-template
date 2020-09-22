@@ -2,11 +2,13 @@ package com.example.order.controller;
 
 import com.example.order.common.Constant;
 import com.example.order.entity.GSysMenu;
+import com.example.order.entity.GSysUser;
 import com.example.order.result.PageResult;
 import com.example.order.service.TestService;
 import com.example.order.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,16 @@ public class TestController {
     @RequestMapping("index")
     public String testOrder(){
         return "index";
+    }
+
+    @RequestMapping(value = "/dologin",method = RequestMethod.POST)
+    public void dologin(HttpServletRequest request, HttpServletResponse response,
+                        @RequestBody GSysUser gSysUser){
+        Map<String, Object> res = new HashMap<String, Object>();
+        //todo 此处写登录逻辑
+        res.put(Constant.RESPONSE_DATA, "success");
+        res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        ServletUtils.writeToResponse(response,res);
     }
 
     @RequestMapping(value = "/getMenus",method = RequestMethod.GET)

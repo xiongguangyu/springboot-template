@@ -47,7 +47,7 @@ public class PcManageController {
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysManage gSysManage= manageService.getList(objId,type);
+            GSysManage gSysManage= manageService.getInfo(objId,type);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManage);
             ServletUtils.writeToResponse(response, res);
@@ -64,7 +64,7 @@ public class PcManageController {
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysManage> gSysManage= manageService.getInfo(type,searchContent);
+            List<GSysManage> gSysManage= manageService.getList(type,searchContent);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManage);
             ServletUtils.writeToResponse(response, res);
