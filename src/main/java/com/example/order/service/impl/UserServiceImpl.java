@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
         gSysUser.setPassword(defaultPassWord);
         gSysUser.setStatus("1");
         gSysUser.setCreateTime(new Date());
-        gSysUser.setWechatOpenid(addUserRequestParam.getWechatOpenId());
         try {
             gSysUserMapper.insertSelective(gSysUser);
         } catch (Exception e) {
