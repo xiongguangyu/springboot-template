@@ -42,7 +42,12 @@
     <include refid="Base_Column_List" />
     from g_sys_company where IS_DEL = '1' order by CREATTIME desc
   </select>
-  <select id="getList" resultType="com.example.order.entity.GSysCompany"></select>
+  <select id="getList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from g_sys_company
+    where COMPANY_ID = #{companyId,jdbcType=BIGINT}  and IS_DEL = '1'
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbg.generated

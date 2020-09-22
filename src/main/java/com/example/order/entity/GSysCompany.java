@@ -13,7 +13,7 @@ public class GSysCompany implements Serializable {
 
     private Long companyId;
 
-    private Long userName;
+    private String userName;
 
     private String userTel;
 

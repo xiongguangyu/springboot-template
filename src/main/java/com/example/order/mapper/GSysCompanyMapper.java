@@ -22,5 +22,5 @@ public interface GSysCompanyMapper {
 
     List<GSysCompany> getInfo();
 
-    GSysCompany getList(Long objId, String type);
+    GSysCompany getList(Long objId);
 }
