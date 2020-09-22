@@ -28,5 +28,19 @@ public interface GSysManageMapper {
 
     GSysManage selectByPrimaryKey(Long objId);
 
+    /**
+     * 小程序端获取首页轮播图，公告，新闻列表
+     * @param type
+     * @param searchContent
+     * @return
+     */
     List<GSysManage> getManageList(@Param("type") String type, @Param("searchContent") String searchContent);
+
+    /**
+     * 小程序端获取首页轮播图，公告，新闻详细信息
+     * @param objId
+     * @param type
+     * @return
+     */
+    GSysManage getManageByTypeAndObjId(@Param("objId")Long objId, @Param("type") String type);
 }
