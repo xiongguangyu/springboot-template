@@ -29,8 +29,8 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
-    public List<GSysManage> getInfo(String type) {
-        return gSysManageMapper.getInfo(type);
+    public List<GSysManage> getInfo(@Param("type")String type,@Param("searchContent")String searchContent) {
+        return gSysManageMapper.getInfo(type,searchContent);
 
     }
 
