@@ -70,8 +70,8 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
-    public List<GSysManage> getManageList(String type, String searchContent) {
-        return gSysManageMapper.getManageList(type,searchContent);
+    public List<GSysManage> getManageList(String type, String tableId,String searchContent) {
+        return gSysManageMapper.getManageList(type,tableId,searchContent);
     }
 
     @Override
@@ -101,5 +101,20 @@ public class ManageServiceImpl implements ManageService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<Map<String, Object>> getTableList() {
+        return gSysManageMapper.getTableList("news");
+    }
+
+    @Override
+    public List<Map<String, Object>> getFailTypeList() {
+        return gSysManageMapper.getTableList("failType");
+    }
+
+    @Override
+    public List<Map<String, Object>> getUnitList() {
+        return gSysManageMapper.getUnitList();
     }
 }

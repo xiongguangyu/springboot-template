@@ -32,7 +32,7 @@ public interface ManageService {
      * @param searchContent
      * @return
      */
-    List<GSysManage> getManageList(String type,String searchContent);
+    List<GSysManage> getManageList(String type,String tableId,String searchContent);
 
     /**
      * 小程序端获取首页轮播图，公告，新闻详细信息
@@ -41,4 +41,22 @@ public interface ManageService {
      * @return
      */
     GSysManage getManageInfo(Long objId,String type);
+
+    /**
+     * 小程序首页获取新闻分区
+     * @return
+     */
+    List<Map<String,Object>> getTableList();
+
+    /**
+     * 小程序故障上报获取故障类型列表
+     * @return
+     */
+    List<Map<String,Object>> getFailTypeList();
+
+    /**
+     * 小程序故障上报获取单位列表
+     * @return
+     */
+    List<Map<String,Object>> getUnitList();
 }

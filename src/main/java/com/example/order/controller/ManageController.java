@@ -42,11 +42,13 @@ public class ManageController {
      * @param response
      */
     @RequestMapping(value = "/getList",method = RequestMethod.GET)
-    public void getInfo(@RequestParam("type") String type,@RequestParam(value="searchContent",required=false)String searchContent,
+    public void getInfo(@RequestParam("type") String type,
+                        @RequestParam(value = "tableId",required = false) String tableId,
+                        @RequestParam(value="searchContent",required=false)String searchContent,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysManage> gSysManageList= manageService.getManageList(type,searchContent);
+            List<GSysManage> gSysManageList= manageService.getManageList(type,tableId,searchContent);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManageList);
             ServletUtils.writeToResponse(response, res);
@@ -73,6 +75,93 @@ public class ManageController {
             GSysManage gSysManage= manageService.getManageInfo(objId,type);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManage);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序首页获取新闻分区
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getTableList",method = RequestMethod.GET)
+    public void getTableList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> tableList = manageService.getTableList();
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, tableList);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序故障上报获取故障类型列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getFailTypeList",method = RequestMethod.GET)
+    public void getFailTypeList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> failTypeList = manageService.getFailTypeList();
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, failTypeList);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序故障上报获取单位列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getUnitList",method = RequestMethod.GET)
+    public void getUnitList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> unitList = manageService.getUnitList();
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, unitList);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序故障上报
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/faultReport",method = RequestMethod.GET)
+    public void faultReport(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("openId") String openId,
+                            @RequestParam("faultType") String faultType,
+                            @RequestParam("problem") String problem,
+                            @RequestParam("imageList") List<String> imageList,
+                            @RequestParam("phone") String phone,
+                            @RequestParam("unit") String unit,
+                            @RequestParam("contactaddress") String contactaddress,
+                            @RequestParam("address") String address){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "");
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
