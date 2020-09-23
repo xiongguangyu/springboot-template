@@ -23,8 +23,8 @@ public class ManagementServiceImpl implements ManagementService {
     private GSysManagementMapper gSysManagementMapper;
 
     @Override
-    public GSysManagement getroleList(@Param("roleId")String roleId) {
-        return gSysManagementMapper.getroleList(roleId);
+    public GSysManagement getroleList(@Param("consumerId")String consumerId) {
+        return gSysManagementMapper.getroleList(consumerId);
 
     }
     @Override
@@ -42,9 +42,9 @@ public class ManagementServiceImpl implements ManagementService {
         }
     }
     @Override
-    public void doDeleteconsumer(String roleId) {
+    public void doDeleteconsumer(String consumerId) {
         try {
-           gSysManagementMapper.deleteByPrimaryKey(roleId);
+           gSysManagementMapper.deleteByPrimaryKey(consumerId);
         } catch (Exception e) {
             logger.error("修改失败!");
             throw new AddUserException("修改失败");

@@ -32,7 +32,7 @@
     select
     <include refid="Base_Column_List" />
     from g_sys_consumer
-    where  post = '0' and IS_DEL = '1'
+    where  post = '1' and IS_DEL = '1'
   </select>
 
   <insert id="insert" parameterType="com.example.order.entity.GSysConsumer">
@@ -118,9 +118,6 @@
       </if>
       <if test="company != null">
         COMPANY = #{company,jdbcType=VARCHAR},
-      </if>
-      <if test="post != null">
-        POST = #{post,jdbcType=VARCHAR},
       </if>
     </set>
     where CONSUMER_ID = #{consumerId,jdbcType=BIGINT}

@@ -12,11 +12,9 @@ import java.util.Date;
 @Builder
 public class GSysManagement implements Serializable {
 
-    private Long roleId;
+    private Long consumerId;
 
-    private Long userId;
-
-    private String customerName;
+    private String consumerName;
 
     private String gender;
 
@@ -26,7 +24,7 @@ public class GSysManagement implements Serializable {
 
     private String post;
 
-    private Date grade;
+    private String isDel;
 
 
 }

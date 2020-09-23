@@ -39,11 +39,11 @@ public class UserManagementController {
     ManagementService managementService;
 
     @RequestMapping(value = "/getroleList",method = RequestMethod.POST)
-    public void getroleList(@RequestParam("roleId") String roleId,
+    public void getroleList(@RequestParam("consumerId") String consumerId,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysManagement gSysManagement= managementService.getroleList(roleId);
+            GSysManagement gSysManagement= managementService.getroleList(consumerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManagement);
             ServletUtils.writeToResponse(response, res);
@@ -89,11 +89,11 @@ public class UserManagementController {
     }
 
     @RequestMapping(value = "/doDeleteconsumer",method = RequestMethod.POST)
-    public void doDeleteconsumer(@RequestParam("roleId") String roleId,
+    public void doDeleteconsumer(@RequestParam("consumerId") String consumerId,
                          HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            managementService.doDeleteconsumer(roleId);
+            managementService.doDeleteconsumer(consumerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);

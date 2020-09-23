@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface GSysManagementMapper {
 
-    GSysManagement getroleList(String roleId);
+    GSysManagement getroleList(String consumerId);
 
     List<GSysManagement> getInformation(String type);
 
     int insertSelective(GSysManagement gSysManagement);
 
-    int deleteByPrimaryKey(String roleId);
+    int deleteByPrimaryKey(String consumerId);
 
     void updateroleList(GSysManagement gSysManagement);
 }

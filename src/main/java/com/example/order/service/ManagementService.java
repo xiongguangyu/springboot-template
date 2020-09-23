@@ -17,9 +17,9 @@ public interface ManagementService {
 
     void addInfo(GSysManagement gSysManagement)  throws AddUserException;
 
-    void doDeleteconsumer(String roleId);
+    void doDeleteconsumer(String consumerId);
 
-    GSysManagement getroleList(String roleId);
+    GSysManagement getroleList(String consumerId);
 
     void updateroleList(GSysManagement gSysManagement);
 
