@@ -10,11 +10,18 @@ public interface ManagementService {
 
     /**
      * 公告，新闻，轮播图
-     * @param roleId id
+     * @param type type
      * @return
      */
     List<GSysManagement> getInformation(String type);
 
     void addInfo(GSysManagement gSysManagement)  throws AddUserException;
+
+    void doDeleteconsumer(String roleId);
+
+    GSysManagement getroleList(String roleId);
+
+    void updateroleList(GSysManagement gSysManagement);
+
 
 }

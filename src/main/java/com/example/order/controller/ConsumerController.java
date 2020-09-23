@@ -1,11 +1,10 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
-import com.example.order.entity.GSysCompany;
-import com.example.order.entity.GSysManage;
+import com.example.order.entity.GSysConsumer;
 import com.example.order.entity.GSysManagement;
 import com.example.order.exception.LoginException;
-import com.example.order.service.ManagementService;
+import com.example.order.service.ConsumerService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,29 +22,80 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName UserManagementController
- * @Description 客户经理管理
+ * @ClassName ConsumerController
+ * @Description 用户管理
  * @Author ShiYJ
- * @Date 2020/9/22
+ * @Date 2020/9/23
  * @Version 1.0
  */
 @Controller
-@RequestMapping("/api/management")
-public class UserManagementController {
+@RequestMapping("/api/consumer")
+public class ConsumerController {
 
-    protected static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(ConsumerController.class);
 
     @Autowired
-    ManagementService managementService;
+    ConsumerService consumerService;
 
-    @RequestMapping(value = "/getroleList",method = RequestMethod.POST)
-    public void getroleList(@RequestParam("roleId") String roleId,
+
+
+    @RequestMapping(value = "/getList",method = RequestMethod.POST)
+    public void getList(@RequestParam("type") String type,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysManagement gSysManagement= managementService.getroleList(roleId);
+            List<GSysConsumer> gSysConsumer= consumerService.getList(type);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, gSysManagement);
+            res.put(Constant.RESPONSE_DATA, gSysConsumer);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    @RequestMapping(value = "/addconsumerList",method = RequestMethod.POST)
+    public void addconsumerList(@RequestBody GSysConsumer gSysConsumer,
+                            HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            consumerService.addconsumerList(gSysConsumer);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
+            ServletUtils.writeToResponse(response,res);
+        }
+
+    }
+
+    @RequestMapping(value = "/deleteConsumer",method = RequestMethod.POST)
+    public void deleteConsumer(@RequestParam("consumerId") String consumerId,
+                               HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            consumerService.deleteConsumer(consumerId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
+            ServletUtils.writeToResponse(response,res);
+        }
+    }
+
+    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
+    public void updateInfo(@RequestParam("consumerId") String consumerId,
+                            HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            GSysConsumer gSysConsumer= consumerService.updateInfo(consumerId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, gSysConsumer);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
@@ -55,28 +105,12 @@ public class UserManagementController {
 
     }
 
-    @RequestMapping(value = "/getInformation",method = RequestMethod.POST)
-    public void getInformation(@RequestParam("type") String type,
-                        HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "/updateInformation",method = RequestMethod.POST)
+    public void updateInformation(@RequestBody GSysConsumer gSysConsumer,
+                               HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysManagement> gSysManagement= managementService.getInformation(type);
-            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, gSysManagement);
-            ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
-            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
-            ServletUtils.writeToResponse(response, res);
-        }
-
-    }
-    @RequestMapping(value = "/addroleList",method = RequestMethod.POST)
-    public void addroleList(@RequestBody GSysManagement gSysManagement,
-                        HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> res = new HashMap<String, Object>();
-        try {
-            managementService.addInfo(gSysManagement);
+            consumerService.updateInformation(gSysConsumer);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -88,36 +122,4 @@ public class UserManagementController {
 
     }
 
-    @RequestMapping(value = "/doDeleteconsumer",method = RequestMethod.POST)
-    public void doDeleteconsumer(@RequestParam("roleId") String roleId,
-                         HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> res = new HashMap<String, Object>();
-        try {
-            managementService.doDeleteconsumer(roleId);
-            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
-            ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
-            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
-            ServletUtils.writeToResponse(response,res);
-        }
-    }
-
-    @RequestMapping(value = "/updateroleList",method = RequestMethod.POST)
-    public void updateroleList(@RequestBody GSysManagement gSysManagement,
-                           HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> res = new HashMap<String, Object>();
-        try {
-            managementService.updateroleList(gSysManagement);
-            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
-            ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
-            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
-            res.put(Constant.RESPONSE_CODE_MSG, "操作失败!");
-            ServletUtils.writeToResponse(response,res);
-        }
-
-    }
 }
