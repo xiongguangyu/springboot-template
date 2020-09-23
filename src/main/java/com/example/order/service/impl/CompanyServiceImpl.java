@@ -21,8 +21,8 @@ public class CompanyServiceImpl implements CompanyService {
     private GSysCompanyMapper gSysCompanyMapper;
 
     @Override
-    public GSysCompany getList(@Param("objId")Long objId,@Param("type")String type) {
-        return gSysCompanyMapper.getList(objId,type);
+    public GSysCompany getList(@Param("objId")Long objId) {
+        return gSysCompanyMapper.getList(objId);
 
     }
 

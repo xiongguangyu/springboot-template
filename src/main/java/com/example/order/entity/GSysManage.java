@@ -43,4 +43,6 @@ public class GSysManage implements Serializable {
 
     private String userName;
 
+    private String selectCode;
+
 }
