@@ -12,7 +12,7 @@ public interface CompanyService {
      * @param objId id
      * @return
      */
-    GSysCompany getList(Long objId,String type);
+    GSysCompany getList(Long objId);
 
     List<GSysCompany> getInfo();
 

@@ -30,5 +30,7 @@ public class GSysUser implements Serializable {
 
     private String userName;
 
+    private String token;
+
 
 }

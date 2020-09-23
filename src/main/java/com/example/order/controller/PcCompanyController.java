@@ -38,11 +38,10 @@ public class PcCompanyController {
 
     @RequestMapping(value = "/getList",method = RequestMethod.POST)
     public void getList(@RequestParam("companyId") Long objId,
-                            @RequestParam("type") String type,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysCompany gSysCompany= companyService.getList(objId,type);
+            GSysCompany gSysCompany= companyService.getList(objId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysCompany);
             ServletUtils.writeToResponse(response, res);

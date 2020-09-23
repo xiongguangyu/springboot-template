@@ -40,5 +40,5 @@ public interface ManageService {
      * @param type
      * @return
      */
-    Map<String,Object> getManageInfo(Long objId,String type);
+    GSysManage getManageInfo(Long objId,String type);
 }

@@ -23,6 +23,7 @@
     <result column="IS_DEL" jdbcType="CHAR" property="isDel" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="SELECT_CODE" jdbcType="VARCHAR" property="selectCode" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -31,7 +32,7 @@
       This element was generated on Thu Sep 10 10:05:45 CST 2020.
     -->
     OBJ_ID, USER_ID, TYPE, TITLE, CONTENT, URL, CREATTIME, RELEASETIME, READNUM, SORT, RELEASE_STATUS,EXAMINE_STATUS,
-    IS_VALID, IS_DEL ,REMARK
+    IS_VALID, IS_DEL ,REMARK,SELECT_CODE
   </sql>
   <select id="getInfo"  resultMap="BaseResultMap">
     select 
@@ -60,7 +61,7 @@
     insert into g_sys_manage (OBJ_ID, USER_ID, TYPE, TITLE,
       CONTENT, URL, CREATTIME,
       RELEASETIME, READNUM, SORT, RELEASE_STATUS,EXAMINE_STATUS,
-      IS_VALID,IS_DEL)
+      IS_VALID,IS_DEL,SELECT_CODE)
     values (#{objId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{type,jdbcType=CHAR},
       #{content,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP},
       #{releasetime,jdbcType=TIMESTAMP}, #{sort,jdbcType=BIGINT}, #{releaseStatus,jdbcType=CHAR},
@@ -111,6 +112,9 @@
       <if test="isDel != null">
         IS_DEL,
       </if>
+      <if test="selectCode != null">
+        SELECT_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="objId != null">
@@ -154,6 +158,9 @@
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="selectCode != null">
+        #{selectCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +206,9 @@
       <if test="isDel != null">
         IS_DEL = #{isDel,jdbcType=CHAR},
       </if>
+      <if test="selectCode != null">
+        SELECT_CODE = #{selectCode,jdbcType=VARCHAR},,
+      </if>
       <if test="remark != null">
         REMARK = #{remark,jdbcType=VARCHAR},
       </if>
@@ -220,6 +230,7 @@
       EXAMINE_STATUS = #{EXAMINEStatus,jdbcType=CHAR},
       IS_VALID = #{isValid,jdbcType=CHAR},
       IS_DEL = #{isDel,jdbcType=CHAR}
+      SELECT_CODE = #{selectCode,jdbcType=VARCHAR}
     where OBJ_ID = #{objId,jdbcType=BIGINT}
   </update>
   <update id="updateIsdelByOId">
@@ -231,15 +242,24 @@
 
   <select id="getManageList" resultMap="BaseResultMap">
     select
-        a.*,
-        b.USER_NAME
+        a.*,b.USER_NAME
     from g_sys_manage a left join g_sys_user b on a.USER_ID = b.USER_ID
-    where 1=1 and a.
+    where 1=1 and a.RELEASE_STATUS = '1' and a.EXAMINE_STATUS = '1' and a.IS_VALID = '1'
     <if test="type != null and type != ''">
       and a.TYPE = #{type,jdbcType=CHAR}
     </if>
     <if test="searchContent != null and searchContent != ''">
       and a.TITLE like concat('%','${searchContent}','%') or a.CONTENT like concat('%','${searchContent}','%')
+    </if>
+  </select>
+
+  <select id="getManageByTypeAndObjId" resultMap="BaseResultMap">
+    select
+      a.*,b.USER_NAME
+    from g_sys_manage a left join g_sys_user b on a.USER_ID = b.USER_ID
+    where a.OBJ_ID = #{objId,jdbcType=BIGINT}
+    <if test="type != null and type != ''">
+      and a.TYPE = #{type,jdbcType=CHAR}
     </if>
   </select>
 </mapper>

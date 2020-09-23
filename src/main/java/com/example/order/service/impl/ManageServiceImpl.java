@@ -71,16 +71,21 @@ public class ManageServiceImpl implements ManageService {
 
     @Override
     public List<GSysManage> getManageList(String type, String searchContent) {
-
-        return null;
+        return gSysManageMapper.getManageList(type,searchContent);
     }
 
     @Override
-    public Map<String, Object> getManageInfo(Long objId, String type) {
-        /*Long readNum = gSysManage.getReadnum();
-        gSysManage.setReadnum(readNum + 1);
-        gSysManageMapper.updateByPrimaryKeySelective(gSysManage);*/
-        return null;
+    public GSysManage getManageInfo(Long objId, String type) {
+        GSysManage gSysManage = null;
+        try {
+            gSysManage = gSysManageMapper.getManageByTypeAndObjId(objId, type);
+            Long readNum = gSysManage.getReadnum();
+            gSysManage.setReadnum(readNum + 1);
+            gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return gSysManage;
     }
 
     @Override
