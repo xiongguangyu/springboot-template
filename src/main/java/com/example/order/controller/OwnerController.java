@@ -1,10 +1,9 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
-import com.example.order.entity.GSysConsumer;
-import com.example.order.entity.GSysManagement;
+import com.example.order.entity.GSysOwner;
 import com.example.order.exception.LoginException;
-import com.example.order.service.ConsumerService;
+import com.example.order.service.OwnerService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,22 +28,27 @@ import java.util.Map;
  * @Version 1.0
  */
 @Controller
-@RequestMapping("/api/consumer")
-public class ConsumerController {
+@RequestMapping("/api/owner")
+public class OwnerController {
 
-    protected static final Logger logger = LoggerFactory.getLogger(ConsumerController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
     @Autowired
-    ConsumerService consumerService;
+    OwnerService ownerService;
 
+    /**
+     * 查询
+     * @param type
+     * @param request
+     * @param response
+     */
 
-
-    @RequestMapping(value = "/getList",method = RequestMethod.POST)
-    public void getList(@RequestParam("type") String type,
+    @RequestMapping(value = "/getOwnerList",method = RequestMethod.POST)
+    public void getOwnerList(@RequestParam("type") String type,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysConsumer> gSysConsumer= consumerService.getList(type);
+            List<GSysOwner> gSysConsumer= ownerService.getOwnerList(type);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysConsumer);
             ServletUtils.writeToResponse(response, res);
@@ -55,12 +59,18 @@ public class ConsumerController {
         }
     }
 
-    @RequestMapping(value = "/addconsumerList",method = RequestMethod.POST)
-    public void addconsumerList(@RequestBody GSysConsumer gSysConsumer,
+    /**
+     * 新增
+     * @param gSysOwner
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/addOwner",method = RequestMethod.POST)
+    public void addOwner(@RequestBody GSysOwner gSysOwner,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            consumerService.addconsumerList(gSysConsumer);
+            ownerService.addOwner(gSysOwner);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -77,7 +87,7 @@ public class ConsumerController {
                                HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            consumerService.deleteConsumer(consumerId);
+            ownerService.deleteConsumer(consumerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -93,7 +103,7 @@ public class ConsumerController {
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysConsumer gSysConsumer= consumerService.updateInfo(consumerId);
+            GSysOwner gSysConsumer= ownerService.updateInfo(consumerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysConsumer);
             ServletUtils.writeToResponse(response, res);
@@ -106,11 +116,11 @@ public class ConsumerController {
     }
 
     @RequestMapping(value = "/updateInformation",method = RequestMethod.POST)
-    public void updateInformation(@RequestBody GSysConsumer gSysConsumer,
+    public void updateInformation(@RequestBody GSysOwner gSysConsumer,
                                HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            consumerService.updateInformation(gSysConsumer);
+            ownerService.updateInformation(gSysConsumer);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);

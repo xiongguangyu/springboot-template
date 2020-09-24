@@ -3,18 +3,17 @@ package com.example.order.entity;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GSysConsumer implements Serializable {
+public class GSysManager implements Serializable {
 
-    private Long consumerId;
+    private Long managerId;
 
-    private String consumerName;
+    private String managerName;
 
     private String gender;
 
@@ -22,7 +21,9 @@ public class GSysConsumer implements Serializable {
 
     private String company;
 
-    private String post;
+    private String companyId;
 
     private String isDel;
+
+
 }

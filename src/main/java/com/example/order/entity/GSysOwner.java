@@ -10,21 +10,17 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GSysManagement implements Serializable {
+public class GSysOwner implements Serializable {
 
-    private Long consumerId;
+    private Long ownerId;
 
-    private String consumerName;
-
-    private String gender;
+    private String ownerName;
 
     private String phone;
 
-    private String company;
+    private String address;
 
-    private String post;
+    private String managerId;
 
     private String isDel;
-
-
 }
