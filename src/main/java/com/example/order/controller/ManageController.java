@@ -1,6 +1,7 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
+import com.example.order.entity.GSysOrder;
 import com.example.order.entity.OpenIdJson;
 import com.example.order.exception.LoginException;
 import com.example.order.request.VChartParam;
@@ -19,6 +20,7 @@ import com.example.order.entity.GSysManage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -204,7 +206,7 @@ public class ManageController {
                             @RequestParam("problem") String problem,
                             @RequestParam("photoList") String photoList,
                             @RequestParam("phone") String phone,
-                            @RequestParam("unit") String unit,
+                            @RequestParam("unit") Long unit,
                             @RequestParam("contactaddress") String contactaddress,
                             @RequestParam("address") String address){
         Map<String, Object> res = new HashMap<String, Object>();
@@ -212,9 +214,43 @@ public class ManageController {
             if (StringUtils.equals(photoList,"[]")){
                 photoList = "";
             }
+            GSysOrder gSysOrder = new GSysOrder();
+            gSysOrder.setOpenId(openId);
+            gSysOrder.setFaultType(faultType);
+            gSysOrder.setProblem(problem);
+            gSysOrder.setFeedbacksrc(photoList);
+            gSysOrder.setTelephone(phone);
+            gSysOrder.setCompanyId(unit);
+            gSysOrder.setAddress(contactaddress);
+            gSysOrder.setContactAddr(address);
+            gSysOrder.setCreateTime(new Date());
+            gSysOrder.setOrderStatus("01");
 
+            manageService.addOrder(gSysOrder);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, "");
+            res.put(Constant.RESPONSE_DATA, "报修成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 获取业主上报订单列表
+     * @param request
+     * @param response
+     * @param openId OPENID
+     */
+    @RequestMapping(value = "/getOrderListForOwner",method = RequestMethod.GET)
+    public void getOrderListForOwner(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("openId") String openId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> orderListForOwner = manageService.getOrderListForOwner(openId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderListForOwner);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);

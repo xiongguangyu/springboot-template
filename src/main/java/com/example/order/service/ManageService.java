@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.order.entity.GSysManage;
+import com.example.order.entity.GSysOrder;
 import com.example.order.exception.AddUserException;
 import com.example.order.mapper.GSysManageMapper;
 
@@ -59,4 +60,16 @@ public interface ManageService {
      * @return
      */
     List<Map<String,Object>> getUnitList();
+
+    /**
+     * 小程序故障上报
+     * @return
+     */
+    void addOrder(GSysOrder gSysOrder);
+
+    /**
+     * 小程序获取业主上报订单列表
+     * @return
+     */
+    List<Map<String,Object>> getOrderListForOwner(String openId);
 }

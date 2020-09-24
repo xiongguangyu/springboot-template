@@ -1,7 +1,9 @@
 package com.example.order.service.impl;
 
+import com.example.order.entity.GSysOrder;
 import com.example.order.exception.AddUserException;
 import com.example.order.mapper.GSysManageMapper;
+import com.example.order.mapper.GSysOrderMapper;
 import com.example.order.service.ManageService;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -20,6 +22,9 @@ public class ManageServiceImpl implements ManageService {
 
     @Autowired
     private GSysManageMapper  gSysManageMapper;
+
+    @Autowired
+    private GSysOrderMapper gSysOrderMapper;
 
     @Override
     public GSysManage getInfo(@Param("objId")Long objId,@Param("type")String type) {
@@ -116,5 +121,15 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public List<Map<String, Object>> getUnitList() {
         return gSysManageMapper.getUnitList();
+    }
+
+    @Override
+    public void addOrder(GSysOrder gSysOrder) {
+        gSysOrderMapper.insertSelective(gSysOrder);
+    }
+
+    @Override
+    public List<Map<String,Object>> getOrderListForOwner(String openId) {
+        return gSysOrderMapper.getOrderListForOwner(openId);
     }
 }
