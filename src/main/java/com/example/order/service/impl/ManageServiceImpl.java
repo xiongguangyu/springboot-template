@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.order.entity.GSysManage;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +96,20 @@ public class ManageServiceImpl implements ManageService {
 
             gSysManage.setExamineStatus(exaId);
             gSysManage.setRemark(remark);
+            gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public boolean releaseById(Long objId) {
+        try {
+            GSysManage gSysManage = gSysManageMapper.selectByPrimaryKey(objId);
+            Date date = new Date();
+            gSysManage.setReleasetime(date);
+            gSysManage.setReleaseStatus("1");
             gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -26,6 +26,8 @@ public interface ManageService {
 
     boolean reviewById(Long objId,String exaId,String remark);
 
+    boolean releaseById(Long objId);
+
     /**
      * 小程序端获取首页轮播图，公告，新闻列表
      * @param type
