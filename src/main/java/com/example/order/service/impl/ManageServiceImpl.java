@@ -125,7 +125,11 @@ public class ManageServiceImpl implements ManageService {
 
     @Override
     public void addOrder(GSysOrder gSysOrder) {
-        gSysOrderMapper.insertSelective(gSysOrder);
+        try {
+            gSysOrderMapper.insertSelective(gSysOrder);
+        } catch (Exception e) {
+            logger.error("故障上报失败{}",e.getMessage());
+        }
     }
 
     @Override
