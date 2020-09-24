@@ -1,7 +1,9 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
+import com.example.order.entity.GSysCompany;
 import com.example.order.exception.LoginException;
+import com.example.order.service.CompanyService;
 import com.example.order.service.ManageService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
@@ -33,6 +35,9 @@ public class ManageController {
 
     @Autowired
     ManageService manageService;
+
+    @Autowired
+    CompanyService companyService;
 
     /**
      * 小程序首页轮播图，公告，新闻列表
@@ -81,4 +86,23 @@ public class ManageController {
         }
     }
 
+    /**
+     * 小程序单位下拉
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getCompanyList",method = RequestMethod.GET)
+    public void getCompanyList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String,Object>> gSysCompany= companyService.getCompanyList();
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, gSysCompany);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
 }

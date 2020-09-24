@@ -1,6 +1,7 @@
 package com.example.order.service;
 
 import com.example.order.entity.GSysMenu;
+import com.example.order.entity.GSysUserMenu;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface MenuService {
     boolean doUpdate(String menuId);
 
     List<GSysMenu> getMenuByMenuId(String menuId);
+
+    List<GSysMenu> getCompanyUserMenu();
+
+    void doUpdateCompanyMenu(GSysUserMenu gSysUserMenu);
 }

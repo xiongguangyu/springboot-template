@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -21,14 +22,19 @@ public class CompanyServiceImpl implements CompanyService {
     private GSysCompanyMapper gSysCompanyMapper;
 
     @Override
-    public GSysCompany getList(@Param("objId")Long objId) {
-        return gSysCompanyMapper.getList(objId);
+    public GSysCompany getList(@Param("companyId")Long companyId) {
+        return gSysCompanyMapper.getList(companyId);
 
     }
 
     @Override
     public List<GSysCompany> getInfo() {
         return gSysCompanyMapper.getInfo();
+
+    }
+    @Override
+    public List<Map<String,Object>> getCompanyList() {
+        return gSysCompanyMapper.getCompanyList();
 
     }
 
@@ -58,8 +64,8 @@ public class CompanyServiceImpl implements CompanyService {
         try {
             gSysCompanyMapper.updateIsdelById(companyId);
         } catch (Exception e) {
-            logger.error("修改失败!");
-            throw new AddUserException("修改失败");
+            logger.error("删除失败!");
+            throw new AddUserException("删除失败");
         }
     }
 }
