@@ -1,7 +1,9 @@
 package com.example.order.service.impl;
 
+import com.example.order.entity.GSysOrder;
 import com.example.order.exception.AddUserException;
 import com.example.order.mapper.GSysManageMapper;
+import com.example.order.mapper.GSysOrderMapper;
 import com.example.order.service.ManageService;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.order.entity.GSysManage;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,9 @@ public class ManageServiceImpl implements ManageService {
 
     @Autowired
     private GSysManageMapper  gSysManageMapper;
+
+    @Autowired
+    private GSysOrderMapper gSysOrderMapper;
 
     @Override
     public GSysManage getInfo(@Param("objId")Long objId,@Param("type")String type) {
@@ -70,8 +76,8 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
-    public List<GSysManage> getManageList(String type, String searchContent) {
-        return gSysManageMapper.getManageList(type,searchContent);
+    public List<GSysManage> getManageList(String type, String tableId,String searchContent) {
+        return gSysManageMapper.getManageList(type,tableId,searchContent);
     }
 
     @Override
@@ -101,5 +107,48 @@ public class ManageServiceImpl implements ManageService {
             return false;
         }
         return true;
+    }
+    @Override
+    public boolean releaseById(Long objId) {
+        try {
+            GSysManage gSysManage = gSysManageMapper.selectByPrimaryKey(objId);
+            Date date = new Date();
+            gSysManage.setReleasetime(date);
+            gSysManage.setReleaseStatus("1");
+            gSysManageMapper.updateByPrimaryKeySelective(gSysManage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<Map<String, Object>> getTableList() {
+        return gSysManageMapper.getTableList("news");
+    }
+
+    @Override
+    public List<Map<String, Object>> getFailTypeList() {
+        return gSysManageMapper.getTableList("failType");
+    }
+
+    @Override
+    public List<Map<String, Object>> getUnitList() {
+        return gSysManageMapper.getUnitList();
+    }
+
+    @Override
+    public void addOrder(GSysOrder gSysOrder) {
+        try {
+            gSysOrderMapper.insertSelective(gSysOrder);
+        } catch (Exception e) {
+            logger.error("故障上报失败{}",e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Map<String,Object>> getOrderListForOwner(String openId) {
+        return gSysOrderMapper.getOrderListForOwner(openId);
     }
 }

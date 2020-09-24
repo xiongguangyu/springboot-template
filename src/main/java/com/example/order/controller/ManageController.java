@@ -1,21 +1,26 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
-import com.example.order.entity.GSysCompany;
+import com.example.order.entity.GSysOrder;
+import com.example.order.entity.OpenIdJson;
 import com.example.order.exception.LoginException;
-import com.example.order.service.CompanyService;
+import com.example.order.request.VChartParam;
 import com.example.order.service.ManageService;
+import com.example.order.utils.HttpUtil;
 import com.example.order.utils.ServletUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import com.example.order.entity.GSysManage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +41,41 @@ public class ManageController {
     @Autowired
     ManageService manageService;
 
-    @Autowired
-    CompanyService companyService;
+    @Value("${sysPara.appId}")
+    private String appId;
+
+    @Value("${sysPara.appSecret}")
+    private String appSecret;
+
+    /**
+     * 小程序获取openId
+     */
+    @PostMapping("/getOpenId")
+    public void userLogin(HttpServletRequest request, HttpServletResponse response,
+                            @RequestBody VChartParam vChartParam) throws IOException {
+        Map<String, Object> res = new HashMap<String, Object>();
+        String result = "";
+        String code = vChartParam.getCode();
+        try{//请求微信服务器，用code换取openid。HttpUtil是工具类，后面会给出实现，Configure类是小程序配置信息，后面会给出代码
+            result = HttpUtil.doGet(
+                    "https://api.weixin.qq.com/sns/jscode2session?appid="
+                            + this.appId + "&secret="
+                            + this.appSecret + "&js_code="
+                            + code
+                            + "&grant_type=authorization_code", null);
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        OpenIdJson openIdJson = mapper.readValue(result,OpenIdJson.class);
+        res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        res.put(Constant.RESPONSE_DATA, openIdJson.getOpenid());
+        ServletUtils.writeToResponse(response, res);
+    }
 
     /**
      * 小程序首页轮播图，公告，新闻列表
@@ -47,11 +85,13 @@ public class ManageController {
      * @param response
      */
     @RequestMapping(value = "/getList",method = RequestMethod.GET)
-    public void getInfo(@RequestParam("type") String type,@RequestParam(value="searchContent",required=false)String searchContent,
+    public void getInfo(@RequestParam("type") String type,
+                        @RequestParam(value = "tableId",required = false) String tableId,
+                        @RequestParam(value="searchContent",required=false)String searchContent,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysManage> gSysManageList= manageService.getManageList(type,searchContent);
+            List<GSysManage> gSysManageList= manageService.getManageList(type,tableId,searchContent);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManageList);
             ServletUtils.writeToResponse(response, res);
@@ -87,17 +127,17 @@ public class ManageController {
     }
 
     /**
-     * 小程序单位下拉
+     * 小程序首页获取新闻分区
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/getCompanyList",method = RequestMethod.GET)
-    public void getCompanyList(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "/getTableList",method = RequestMethod.GET)
+    public void getTableList(HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<Map<String,Object>> gSysCompany= companyService.getCompanyList();
+            List<Map<String, Object>> tableList = manageService.getTableList();
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, gSysCompany);
+            res.put(Constant.RESPONSE_DATA, tableList);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
@@ -105,4 +145,118 @@ public class ManageController {
             ServletUtils.writeToResponse(response, res);
         }
     }
+
+    /**
+     * 小程序故障上报获取故障类型列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getFailTypeList",method = RequestMethod.GET)
+    public void getFailTypeList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> failTypeList = manageService.getFailTypeList();
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, failTypeList);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序故障上报获取单位列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getUnitList",method = RequestMethod.GET)
+    public void getUnitList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> unitList = manageService.getUnitList();
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, unitList);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序故障上报
+     * @param request
+     * @param response
+     * @param openId OPENID
+     * @param faultType 故障类型
+     * @param problem 遇到的问题
+     * @param photoList 反馈图片
+     * @param phone 联系电话
+     * @param unit 单位ID
+     * @param contactaddress 联系地址
+     * @param address 详细地址
+     */
+    @RequestMapping(value = "/faultReport",method = RequestMethod.GET)
+    public void faultReport(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("openId") String openId,
+                            @RequestParam("faultType") String faultType,
+                            @RequestParam("problem") String problem,
+                            @RequestParam("photoList") String photoList,
+                            @RequestParam("phone") String phone,
+                            @RequestParam("unit") Long unit,
+                            @RequestParam("contactaddress") String contactaddress,
+                            @RequestParam("address") String address){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            if (StringUtils.equals(photoList,"[]")){
+                photoList = "";
+            }
+            GSysOrder gSysOrder = new GSysOrder();
+            gSysOrder.setOpenId(openId);
+            gSysOrder.setFaultType(faultType);
+            gSysOrder.setProblem(problem);
+            gSysOrder.setFeedbacksrc(photoList);
+            gSysOrder.setTelephone(phone);
+            gSysOrder.setCompanyId(unit);
+            gSysOrder.setAddress(contactaddress);
+            gSysOrder.setContactAddr(address);
+            gSysOrder.setCreateTime(new Date());
+            gSysOrder.setOrderStatus("01");
+
+            manageService.addOrder(gSysOrder);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "报修成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 获取业主上报订单列表
+     * @param request
+     * @param response
+     * @param openId OPENID
+     */
+    @RequestMapping(value = "/getOrderListForOwner",method = RequestMethod.GET)
+    public void getOrderListForOwner(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("openId") String openId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> orderListForOwner = manageService.getOrderListForOwner(openId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderListForOwner);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
 }
