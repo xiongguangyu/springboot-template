@@ -3,24 +3,46 @@ package com.example.order.mapper;
 import com.example.order.entity.GSysCompany;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GSysCompanyMapper {
-
-    int deleteByPrimaryKey(Long companyId);
-
-    int insert(GSysCompany record);
-
+    /**
+     * 添加单位
+     * @param record
+     * @return
+     */
     int insertSelective(GSysCompany record);
 
-    GSysCompany selectByPrimaryKey(Long companyId);
-
+    /**
+     * 修改单位
+     * @param record
+     * @return
+     */
     int updateByPrimaryKeySelective(GSysCompany record);
 
-    int updateByPrimaryKey(GSysCompany record);
+    /**
+     * “删除”单位
+     * @param companyId
+     * @return
+     */
+    void updateIsdelById(String companyId);
 
-    void updateIsdelById(String objId);
-
+    /**
+     * 获取所有单位
+     * @return
+     */
     List<GSysCompany> getInfo();
 
-    GSysCompany getList(Long objId);
+    /**
+     * 获取单位下拉
+     * @return
+     */
+    List<Map<String,Object>> getCompanyList();
+
+    /**
+     * 小程序端获取首页轮播图，公告，新闻列表
+     * @param companyId
+     * @return
+     */
+    GSysCompany getList(Long companyId);
 }

@@ -21,7 +21,7 @@
     from g_sys_user
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
-  <insert id="insertSelective" parameterType="com.example.order.entity.GSysUser">
+  <insert id="insertSelective" parameterType="com.example.order.entity.GSysUser" useGeneratedKeys="true" keyProperty="userId">
     insert into g_sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -104,10 +104,19 @@
     where USER_ID = #{userId,jdbcType=BIGINT}
   </update>
 
+
   <select id="loginUser" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
     FROM g_sys_user
     WHERE LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
   </select>
+
+    <update id="updateCompanyUserStatus" parameterType="com.example.order.entity.GSysUser">
+    update g_sys_user
+    <set>
+        STATUS = #{status,jdbcType=CHAR},
+    </set>
+    where LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.order.entity.GSysManage;
+import com.example.order.entity.GSysOrder;
 import com.example.order.exception.AddUserException;
 import com.example.order.mapper.GSysManageMapper;
 
@@ -26,13 +27,15 @@ public interface ManageService {
 
     boolean reviewById(Long objId,String exaId,String remark);
 
+    boolean releaseById(Long objId);
+
     /**
      * 小程序端获取首页轮播图，公告，新闻列表
      * @param type
      * @param searchContent
      * @return
      */
-    List<GSysManage> getManageList(String type,String searchContent);
+    List<GSysManage> getManageList(String type,String tableId,String searchContent);
 
     /**
      * 小程序端获取首页轮播图，公告，新闻详细信息
@@ -41,4 +44,34 @@ public interface ManageService {
      * @return
      */
     GSysManage getManageInfo(Long objId,String type);
+
+    /**
+     * 小程序首页获取新闻分区
+     * @return
+     */
+    List<Map<String,Object>> getTableList();
+
+    /**
+     * 小程序故障上报获取故障类型列表
+     * @return
+     */
+    List<Map<String,Object>> getFailTypeList();
+
+    /**
+     * 小程序故障上报获取单位列表
+     * @return
+     */
+    List<Map<String,Object>> getUnitList();
+
+    /**
+     * 小程序故障上报
+     * @return
+     */
+    void addOrder(GSysOrder gSysOrder);
+
+    /**
+     * 小程序获取业主上报订单列表
+     * @return
+     */
+    List<Map<String,Object>> getOrderListForOwner(String openId);
 }

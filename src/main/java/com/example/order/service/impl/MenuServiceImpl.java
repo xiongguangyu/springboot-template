@@ -1,6 +1,7 @@
 package com.example.order.service.impl;
 
 import com.example.order.entity.GSysMenu;
+import com.example.order.entity.GSysUserMenu;
 import com.example.order.exception.LoginException;
 import com.example.order.mapper.GSysMenuMapper;
 import com.example.order.service.MenuService;
@@ -42,5 +43,16 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<GSysMenu> getMenuByMenuId(String menuId) {
         return GSysMenuMapper.getMenuByMenuId(menuId);
+    }
+
+    @Override
+    public List<GSysMenu> getCompanyUserMenu() {
+        return GSysMenuMapper.getCompanyUserMenu();
+    }
+
+
+    @Override
+    public void doUpdateCompanyMenu(GSysUserMenu gSysUserMenu) {
+        GSysMenuMapper.doUpdateCompanyMenu(gSysUserMenu);
     }
 }
