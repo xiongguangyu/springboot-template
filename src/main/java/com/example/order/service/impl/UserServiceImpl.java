@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public GSysUser getMenuListByLoginName(String loginName) {
+        return gSysUserMapper.loginUser(loginName);
+    }
+
+    @Override
     public void addUser(AddUserRequestParam addUserRequestParam) throws AddUserException{
         GSysUser gSysUser = new GSysUser();
         gSysUser.setLoginName(addUserRequestParam.getUsername());
@@ -64,4 +69,24 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public long addCompanyUser(GSysUser gSysUser) throws AddUserException {
+        try {
+            gSysUserMapper.insertSelective(gSysUser);
+            long userid = gSysUser.getUserId();
+            return userid;
+        } catch (Exception e) {
+            logger.error("新增用户失败!");
+            throw new AddUserException("新增用户失败");
+        }
+    }
+
+    @Override
+    public void updateCompanyUserStatus(GSysUser gSysUser) {
+        gSysUserMapper.updateCompanyUserStatus(gSysUser);
+    }
+
+
+
 }
