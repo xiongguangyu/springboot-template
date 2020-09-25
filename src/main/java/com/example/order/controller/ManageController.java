@@ -298,4 +298,48 @@ public class ManageController {
         }
     }
 
+    /**
+     * 小程序订单重新上报
+     * @param request
+     * @param response
+     * @param orderId 订单id
+     */
+    @RequestMapping(value = "/reportAgain",method = RequestMethod.GET)
+    public void reportAgain(HttpServletRequest request, HttpServletResponse response,
+                                     @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            manageService.reportAgain(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "重新上报成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序获取订单进度
+     * @param request
+     * @param response
+     * @param orderId 订单id
+     */
+    @RequestMapping(value = "/getOrderProgress",method = RequestMethod.GET)
+    public void getOrderProgress(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> orderProgress = manageService.getOrderProgress(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderProgress);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
 }
