@@ -17,16 +17,16 @@
     <result column="SEND_SMS" jdbcType="CHAR" property="sendSms" />
   </resultMap>
   <sql id="Base_Column_List">
-    ORDER_ID, OPEN_ID, CONSUMER_ID, FAULT_TYPE, PROBLEM, FEEDBACKSRC, TELEPHONE, COMPANY_ID, 
+    ORDER_ID, OPEN_ID, CONSUMER_ID, FAULT_TYPE, PROBLEM, FEEDBACKSRC, TELEPHONE, COMPANY_ID,
     ADDRESS, CONTACT_ADDR, ORDER_STATUS,CREATE_TIME, SEND_SMS
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from g_sys_order
     where ORDER_ID = #{orderId,jdbcType=BIGINT}
   </select>
-  <insert id="insertSelective" parameterType="com.example.order.entity.GSysOrder">
+  <insert id="insertSelective" parameterType="com.example.order.entity.GSysOrder" useGeneratedKeys="true" keyProperty="orderId">
     insert into g_sys_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderId != null">

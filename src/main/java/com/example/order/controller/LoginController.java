@@ -81,7 +81,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
-    public void testLogin(@RequestParam("userName") String userName,
+    public void doLogin(@RequestParam("userName") String userName,
                           @RequestParam("passWord") String passWord,
                           @RequestParam(value = "loginCode",required = false) String loginCode,
                           HttpServletRequest request, HttpServletResponse response){
@@ -96,13 +96,13 @@ public class LoginController {
         }
 
         //判断当前环境是否为为开发环境,开发环境不做验证码检验
-        if (!"dev".equals(isTest)) {
-            //校验验证码
-            Map<String, Object> result = checkCode(loginCode, request.getAttribute("code"));
-            if (400 == Integer.parseInt(result.get(Constant.RESPONSE_CODE).toString())){
-                ServletUtils.writeToResponse(response, res);
-            }
-        }
+//        if (!"dev".equals(isTest)) {
+//            //校验验证码
+//            Map<String, Object> result = checkCode(loginCode, request.getAttribute("code"));
+//            if (400 == Integer.parseInt(result.get(Constant.RESPONSE_CODE).toString())){
+//                ServletUtils.writeToResponse(response, res);
+//            }
+//        }
 
         try {
             GSysUser gSysUser = loginService.doLogin(userName, passWord);
@@ -139,6 +139,36 @@ public class LoginController {
         res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
         res.put(Constant.RESPONSE_CODE_MSG, "验证通过!");
         return res;
+    }
+
+    @RequestMapping(value = "/vchart/manager/doLogin",method = RequestMethod.POST)
+    public void managerLogin(@RequestParam("userName") String userName,
+                          @RequestParam("passWord") String passWord,
+                          HttpServletRequest request, HttpServletResponse response){
+
+        Map<String, Object> res = new HashMap<String, Object>();
+
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)){
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "请输入用户名或密码!");
+            ServletUtils.writeToResponse(response, res);
+            return;
+        }
+
+        try {
+            GSysUser gSysUser = loginService.managerLogin(userName, passWord);
+
+            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysUser);
+            res.put(Constant.RESPONSE_DATA, gSysUser);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "登录成功!");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+
     }
 
 }

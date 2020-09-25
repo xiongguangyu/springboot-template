@@ -54,7 +54,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         if ("dev".equals(isTest)){
             excludePath.add("/**"); //
         }else {
-            excludePath.add("/api/login/doLogin");     //登录
+            excludePath.add("/api/login");     //登录接口
         }
         //excludePath.add("/static/**");  //静态资源
         //excludePath.add("/assets/**");  //静态资源

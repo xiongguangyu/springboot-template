@@ -1,6 +1,7 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
+import com.example.order.entity.GSysEvaluate;
 import com.example.order.entity.GSysOrder;
 import com.example.order.entity.OpenIdJson;
 import com.example.order.exception.LoginException;
@@ -95,7 +96,7 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManageList);
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
@@ -119,7 +120,7 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManage);
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
@@ -139,7 +140,7 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, tableList);
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
@@ -159,7 +160,7 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, failTypeList);
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
@@ -179,7 +180,7 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, unitList);
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
@@ -230,7 +231,7 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, "报修成功");
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
@@ -238,7 +239,7 @@ public class ManageController {
     }
 
     /**
-     * 获取业主上报订单列表
+     * 小程序获取业主上报订单列表
      * @param request
      * @param response
      * @param openId OPENID
@@ -252,7 +253,89 @@ public class ManageController {
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, orderListForOwner);
             ServletUtils.writeToResponse(response, res);
-        } catch (LoginException e) {
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序业主订单评价
+     * @param request
+     * @param response
+     * @param orderId 订单id
+     * @param attitude 服务态度评分
+     * @param efficiency 工作效率评分
+     * @param meter 仪表整洁评分
+     * @param evaluation 评价描述
+     */
+    @RequestMapping(value = "/orderEvaluate",method = RequestMethod.GET)
+    public void orderEvaluate(HttpServletRequest request, HttpServletResponse response,
+                                      @RequestParam("orderId") Long orderId,
+                                      @RequestParam("attitude") String attitude,
+                                      @RequestParam("efficiency") String efficiency,
+                                      @RequestParam("meter") String meter,
+                                      @RequestParam("evaluation") String evaluation){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            GSysEvaluate gSysEvaluate = new GSysEvaluate();
+            gSysEvaluate.setOrderId(orderId);
+            gSysEvaluate.setAttitude(attitude);
+            gSysEvaluate.setEfficiency(efficiency);
+            gSysEvaluate.setMeter(meter);
+            gSysEvaluate.setEvaluation(evaluation);
+            gSysEvaluate.setCreateTime(new Date());
+
+            manageService.orderEvaluate(gSysEvaluate);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "评价成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序订单重新上报
+     * @param request
+     * @param response
+     * @param orderId 订单id
+     */
+    @RequestMapping(value = "/reportAgain",method = RequestMethod.GET)
+    public void reportAgain(HttpServletRequest request, HttpServletResponse response,
+                                     @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            manageService.reportAgain(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "重新上报成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序获取订单进度
+     * @param request
+     * @param response
+     * @param orderId 订单id
+     */
+    @RequestMapping(value = "/getOrderProgress",method = RequestMethod.GET)
+    public void getOrderProgress(HttpServletRequest request, HttpServletResponse response,
+                            @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> orderProgress = manageService.getOrderProgress(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderProgress);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
             ServletUtils.writeToResponse(response, res);
