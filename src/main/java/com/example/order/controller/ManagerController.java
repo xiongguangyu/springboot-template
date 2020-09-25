@@ -48,7 +48,7 @@ public class ManagerController {
                                HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysManager> gSysManagement= managerService.getManagerList(type);
+            List<Map<String, Object>> gSysManagement = managerService.getManagerList(type);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManagement);
             ServletUtils.writeToResponse(response, res);
@@ -82,6 +82,27 @@ public class ManagerController {
         }
 
     }
+    /**
+     * 查询经理id
+     * @param userId
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getManagerId",method = RequestMethod.POST)
+    public void getManagerId( @RequestParam("userId") String userId,
+                              HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> gSysManagers= managerService.getManagerId(userId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, gSysManagers);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
 
     /**
      * 删除
@@ -90,7 +111,7 @@ public class ManagerController {
      * @param response
      */
     @RequestMapping(value = "/deleteManger",method = RequestMethod.POST)
-    public void deleteManger(@RequestParam("managerId") String managerId,
+    public void deleteManger(@RequestParam("MANAGER_ID") String managerId,
                                  HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
@@ -112,11 +133,11 @@ public class ManagerController {
      * @param response
      */
     @RequestMapping(value = "/getManger",method = RequestMethod.POST)
-    public void getManger(@RequestParam("managerId") String managerId,
+    public void getManger(@RequestParam("MANAGER_ID") String managerId,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysManager gSysManager= managerService.getManger(managerId);
+            List<Map<String, Object>> gSysManager= managerService.getManger(managerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManager);
             ServletUtils.writeToResponse(response, res);

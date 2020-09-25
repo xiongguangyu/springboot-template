@@ -2,20 +2,23 @@ package com.example.order.mapper;
 
 
 import com.example.order.entity.GSysOwner;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface GSysOwnerMapper {
 
 
-    List<GSysOwner> getOwnerList(String type);
+    List<GSysOwner> getOwnerList(@Param("userId") String userId);
+
+
 
     int addOwner(GSysOwner gSysOwner);
 
-    void updateConsumer(String consumerId);
+    void deleteOwner(String ownerId);
 
-    GSysOwner updateInfo(String consumerId);
+    GSysOwner getOwner(String ownerId);
 
-    void updateInformation(GSysOwner gSysConsumer);
+    void updateOwner(GSysOwner gSysOwner);
 
 }

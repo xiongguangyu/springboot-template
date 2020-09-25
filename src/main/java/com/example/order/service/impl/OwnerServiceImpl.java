@@ -23,8 +23,8 @@ public class OwnerServiceImpl implements OwnerService {
 
 
     @Override
-    public List<GSysOwner> getOwnerList(String type) {
-        return gSysOwnerMapper.getOwnerList(type);
+    public List<GSysOwner> getOwnerList( String userId) {
+        return gSysOwnerMapper.getOwnerList(userId);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class OwnerServiceImpl implements OwnerService {
 
 
     @Override
-    public void deleteConsumer(String consumerId) {
+    public void deleteOwner(String ownerId) {
         try {
-            gSysOwnerMapper.updateConsumer(consumerId);
+            gSysOwnerMapper.deleteOwner(ownerId);
         } catch (Exception e) {
             logger.error("修改失败!");
             throw new AddUserException("修改失败");
@@ -50,15 +50,15 @@ public class OwnerServiceImpl implements OwnerService {
 
 
     @Override
-    public GSysOwner updateInfo(@Param("consumerId")String consumerId) {
-        return gSysOwnerMapper.updateInfo(consumerId);
+    public GSysOwner getOwner(@Param("ownerId")String ownerId) {
+        return gSysOwnerMapper.getOwner(ownerId);
 
     }
 
     @Override
-    public void updateInformation(GSysOwner gSysConsumer) throws AddUserException {
+    public void updateOwner(GSysOwner gSysOwner) throws AddUserException {
         try {
-            gSysOwnerMapper.updateInformation(gSysConsumer);
+            gSysOwnerMapper.updateOwner(gSysOwner);
         } catch (Exception e) {
             logger.error("修改失败!");
             throw new AddUserException("修改失败");

@@ -38,17 +38,16 @@ public class OwnerController {
 
     /**
      * 查询
-     * @param type
+     * @param userId
      * @param request
      * @param response
      */
-
     @RequestMapping(value = "/getOwnerList",method = RequestMethod.POST)
-    public void getOwnerList(@RequestParam("type") String type,
+    public void getOwnerList( @RequestParam("userId") String userId,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysOwner> gSysConsumer= ownerService.getOwnerList(type);
+            List<GSysOwner> gSysConsumer= ownerService.getOwnerList(userId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysConsumer);
             ServletUtils.writeToResponse(response, res);
@@ -58,6 +57,8 @@ public class OwnerController {
             ServletUtils.writeToResponse(response, res);
         }
     }
+
+
 
     /**
      * 新增
@@ -82,12 +83,18 @@ public class OwnerController {
 
     }
 
-    @RequestMapping(value = "/deleteConsumer",method = RequestMethod.POST)
-    public void deleteConsumer(@RequestParam("consumerId") String consumerId,
+    /**
+     * 删除
+     * @param ownerId
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/deleteOwner",method = RequestMethod.POST)
+    public void deleteOwner(@RequestParam("ownerId") String ownerId,
                                HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            ownerService.deleteConsumer(consumerId);
+            ownerService.deleteOwner(ownerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -98,14 +105,14 @@ public class OwnerController {
         }
     }
 
-    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
-    public void updateInfo(@RequestParam("consumerId") String consumerId,
+    @RequestMapping(value = "/getOwner",method = RequestMethod.POST)
+    public void getOwner(@RequestParam("ownerId") String ownerId,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysOwner gSysConsumer= ownerService.updateInfo(consumerId);
+            GSysOwner gSysOwner= ownerService.getOwner(ownerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, gSysConsumer);
+            res.put(Constant.RESPONSE_DATA, gSysOwner);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
@@ -115,12 +122,12 @@ public class OwnerController {
 
     }
 
-    @RequestMapping(value = "/updateInformation",method = RequestMethod.POST)
-    public void updateInformation(@RequestBody GSysOwner gSysConsumer,
+    @RequestMapping(value = "/updateOwner",method = RequestMethod.POST)
+    public void updateOwner(@RequestBody GSysOwner gSysOwner,
                                HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            ownerService.updateInformation(gSysConsumer);
+            ownerService.updateOwner(gSysOwner);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);

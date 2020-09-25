@@ -1,9 +1,11 @@
 package com.example.order.service;
 
 import com.example.order.entity.GSysManager;
+import com.example.order.entity.GSysOwner;
 import com.example.order.exception.AddUserException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ManagerService {
 
@@ -12,13 +14,17 @@ public interface ManagerService {
      * @param type type
      * @return
      */
-    List<GSysManager> getManagerList(String type);
+    List<Map<String, Object>> getManagerList(String type);
+
+
+    List<Map<String, Object>> getManagerId(String userId);
+
 
     void addManger(GSysManager gSysManager)  throws AddUserException;
 
     void deleteManger(String managerId);
 
-    GSysManager getManger(String managerId);
+    List<Map<String, Object>> getManger(String managerId);
 
     void updateManger(GSysManager gSysManager);
 

@@ -19,11 +19,10 @@ public class GSysManager implements Serializable {
 
     private String phone;
 
-    private String company;
-
     private String companyId;
 
     private String isDel;
 
-
+    //管理员id
+    private Long userId;
 }

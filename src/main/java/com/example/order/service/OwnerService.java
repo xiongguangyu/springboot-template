@@ -12,14 +12,14 @@ public interface OwnerService {
      * @param type type
      * @return
      */
-    List<GSysOwner> getOwnerList(String type);
+    List<GSysOwner> getOwnerList(String userId);
 
     void addOwner(GSysOwner gSysOwner)  throws AddUserException;
 
-    void deleteConsumer(String ownerId);
+    void deleteOwner(String ownerId);
 
-    GSysOwner updateInfo(String ownerId);
+    GSysOwner getOwner(String ownerId);
 
-    void updateInformation(GSysOwner gSysOwner);
+    void updateOwner(GSysOwner gSysOwner);
 
 }

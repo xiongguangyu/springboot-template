@@ -23,4 +23,6 @@ public class GSysOwner implements Serializable {
     private String managerId;
 
     private String isDel;
+
+    private String managerName;
 }
