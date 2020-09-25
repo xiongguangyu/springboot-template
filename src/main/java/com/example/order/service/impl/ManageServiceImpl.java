@@ -1,7 +1,9 @@
 package com.example.order.service.impl;
 
+import com.example.order.entity.GSysEvaluate;
 import com.example.order.entity.GSysOrder;
 import com.example.order.exception.AddUserException;
+import com.example.order.mapper.GSysEvaluateMapper;
 import com.example.order.mapper.GSysManageMapper;
 import com.example.order.mapper.GSysOrderMapper;
 import com.example.order.service.ManageService;
@@ -26,6 +28,9 @@ public class ManageServiceImpl implements ManageService {
 
     @Autowired
     private GSysOrderMapper gSysOrderMapper;
+
+    @Autowired
+    private GSysEvaluateMapper gSysEvaluateMapper;
 
     @Override
     public GSysManage getInfo(@Param("objId")Long objId,@Param("type")String type) {
@@ -141,14 +146,35 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public void addOrder(GSysOrder gSysOrder) {
         try {
+            //上报维修订单
             gSysOrderMapper.insertSelective(gSysOrder);
+            //todo 判断是否开启上报订单后自动发短信功能
+
         } catch (Exception e) {
             logger.error("故障上报失败{}",e.getMessage());
+            throw new RuntimeException("故障上报失败");
         }
     }
 
     @Override
     public List<Map<String,Object>> getOrderListForOwner(String openId) {
         return gSysOrderMapper.getOrderListForOwner(openId);
+    }
+
+    @Override
+    public void orderEvaluate(GSysEvaluate gSysEvaluate) {
+        try {
+            //查询该笔订单信息
+            GSysOrder gSysOrder = gSysOrderMapper.selectByPrimaryKey(gSysEvaluate.getOrderId());
+            //评价订单
+            gSysEvaluateMapper.insertSelective(gSysEvaluate);
+            //评价订单后把该订单状态置为已完成
+            gSysOrder.setOrderStatus("04");
+            gSysOrderMapper.updateByPrimaryKeySelective(gSysOrder);
+            //todo 插入订单进度表
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException("订单评价失败");
+        }
     }
 }

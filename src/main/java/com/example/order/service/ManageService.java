@@ -3,6 +3,7 @@ package com.example.order.service;
 import java.util.List;
 import java.util.Map;
 
+import com.example.order.entity.GSysEvaluate;
 import com.example.order.entity.GSysManage;
 import com.example.order.entity.GSysOrder;
 import com.example.order.exception.AddUserException;
@@ -74,4 +75,10 @@ public interface ManageService {
      * @return
      */
     List<Map<String,Object>> getOrderListForOwner(String openId);
+
+    /**
+     * 小程序业主订单评价
+     * @return
+     */
+    void orderEvaluate(GSysEvaluate gSysEvaluate);
 }
