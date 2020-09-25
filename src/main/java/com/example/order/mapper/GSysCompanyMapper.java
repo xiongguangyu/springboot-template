@@ -1,10 +1,13 @@
 package com.example.order.mapper;
 
 import com.example.order.entity.GSysCompany;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public interface GSysCompanyMapper {
     /**
      * 添加单位
@@ -45,4 +48,6 @@ public interface GSysCompanyMapper {
      * @return
      */
     GSysCompany getList(Long companyId);
+
+    Long selectCompanyIdForUserId(@Param("userId") Long userId);
 }
