@@ -81,4 +81,16 @@ public interface ManageService {
      * @return
      */
     void orderEvaluate(GSysEvaluate gSysEvaluate);
+
+    /**
+     * 小程序订单重新上报
+     * @return
+     */
+    void reportAgain(Long orderId);
+
+    /**
+     * 小程序获取订单进度
+     * @return
+     */
+    List<Map<String,Object>> getOrderProgress(Long orderId);
 }
