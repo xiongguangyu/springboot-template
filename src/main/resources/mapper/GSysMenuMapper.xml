@@ -134,5 +134,26 @@
       </if>
     </trim>
   </insert>
+  <update id="doUpdateMenu" parameterType="com.example.order.entity.GSysMenu">
+    update g_sys_menu
+    <set>
+      <if test="menuName != null">
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=CHAR},
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </update>
 
+
+  <select id="getMenus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from g_sys_menu
+  </select>
 </mapper>

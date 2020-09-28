@@ -55,4 +55,14 @@ public class MenuServiceImpl implements MenuService {
     public void doUpdateCompanyMenu(GSysUserMenu gSysUserMenu) {
         GSysMenuMapper.doUpdateCompanyMenu(gSysUserMenu);
     }
+
+    @Override
+    public void doUpdateMenu(GSysMenu gSysMenu) {
+        GSysMenuMapper.doUpdateMenu(gSysMenu);
+    }
+
+    @Override
+    public List<GSysMenu> getMenus() {
+        return GSysMenuMapper.getMenus();
+    }
 }
