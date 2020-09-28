@@ -1,6 +1,5 @@
 package com.example.order.service;
 
-import com.example.order.entity.GSysFirstWorker;
 import com.example.order.entity.GSysManager;
 import com.example.order.entity.GSysUser;
 import com.example.order.entity.GSysWorker;

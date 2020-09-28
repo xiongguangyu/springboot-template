@@ -11,6 +11,7 @@
     <result column="MANAGER_NAME" jdbcType="VARCHAR" property="managerName" />
     <result column="GENDER" jdbcType="VARCHAR" property="gender" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
     <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
     <result column="IS_DEL" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
@@ -56,6 +57,9 @@
       <if test="phone != null">
         PHONE,
       </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
       <if test="companyId != null">
         COMPANY_ID,
       </if>
@@ -75,6 +79,9 @@
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=VARCHAR},
@@ -126,6 +133,9 @@
       </if>
       <if test="phone != null">
         PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
     </set>
     where MANAGER_ID = #{managerId,jdbcType=BIGINT}
