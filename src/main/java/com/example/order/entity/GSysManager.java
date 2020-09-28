@@ -19,6 +19,8 @@ public class GSysManager implements Serializable {
 
     private String phone;
 
+    private String password;
+
     private String companyId;
 
     private String isDel;
