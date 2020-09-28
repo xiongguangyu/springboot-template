@@ -64,6 +64,9 @@
       <if test="address != null">
         ADDRESS,
       </if>
+      <if test="managerId != null">
+        MANAGER_ID,
+      </if>
       <if test="isDel != null">
         IS_DEL,
       </if>
@@ -80,6 +83,9 @@
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=VARCHAR},
