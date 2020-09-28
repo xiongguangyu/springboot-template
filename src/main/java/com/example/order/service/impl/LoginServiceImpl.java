@@ -1,7 +1,9 @@
 package com.example.order.service.impl;
 
+import com.example.order.entity.GSysManager;
 import com.example.order.entity.GSysUser;
 import com.example.order.exception.LoginException;
+import com.example.order.mapper.GSysManagerMapper;
 import com.example.order.mapper.GSysUserMapper;
 import com.example.order.service.LoginService;
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +19,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private GSysUserMapper gSysUserMapper;
+
+    @Autowired
+    private GSysManagerMapper gSysManagerMapper;
 
     @Override
     public GSysUser doLogin(String username, String password) throws LoginException {
@@ -40,19 +45,19 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public GSysUser managerLogin(String username, String password) {
-        GSysUser gSysUser = gSysUserMapper.loginUser(username);
-        if (gSysUser != null){
-            String passwordInDataBase = gSysUser.getPassword();
+    public GSysManager managerLogin(String username, String password) {
+        GSysManager gSysManager = gSysManagerMapper.managerLogin(username);
+        if (gSysManager != null){
+            String passwordInDataBase = gSysManager.getPassword();
             //校验密码是否正确
             if (!StringUtils.equals(password,passwordInDataBase)){
                 throw new LoginException("用户名或密码错误！");
             }
             //判断该用户状态
-            if (StringUtils.equals(gSysUser.getStatus(),"0")){
+            if (StringUtils.equals(gSysManager.getIsValid(),"0")){
                 throw new LoginException("该用户已被禁用，请联系管理员！");
             }
-            return gSysUser;
+            return gSysManager;
         }else {
 
             throw new LoginException("此用户不存在，请确认！！");

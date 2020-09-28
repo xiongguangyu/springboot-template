@@ -14,7 +14,7 @@
     EVALUATE_ID, ORDER_ID, ATTITUDE, EFFICIENCY, METER, CREATE_TIME,EVALUATION
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from g_sys_evaluate
     where EVALUATE_ID = #{evaluateId,jdbcType=BIGINT}
@@ -92,4 +92,11 @@
     </set>
     where EVALUATE_ID = #{evaluateId,jdbcType=BIGINT}
   </update>
+
+  <select id="checkEvaluationDetail" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from g_sys_evaluate
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </select>
 </mapper>

@@ -223,5 +223,15 @@ public class ManageServiceImpl implements ManageService {
         return gSysOrderProgressMapper.getOrderProgress(orderId);
     }
 
+    @Override
+    public List<Map<String, Object>> getOrderListForManager(String managerId) {
+        return gSysOrderMapper.getOrderListForManager(managerId);
+    }
+
+    @Override
+    public GSysEvaluate checkEvaluationDetail(Long orderId) {
+        return gSysEvaluateMapper.checkEvaluationDetail(orderId);
+    }
+
 
 }

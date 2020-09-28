@@ -1,6 +1,7 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
+import com.example.order.entity.GSysManager;
 import com.example.order.entity.GSysUser;
 import com.example.order.exception.LoginException;
 import com.example.order.service.LoginService;
@@ -142,12 +143,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/vchart/manager/doLogin",method = RequestMethod.POST)
-    public void managerLogin(@RequestParam("userName") String userName,
-                          @RequestParam("passWord") String passWord,
+    public void managerLogin(@RequestBody GSysManager gSysManager,
                           HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> res = new HashMap<String, Object>();
-
+        String userName = gSysManager.getPhone();
+        String passWord = gSysManager.getPassword();
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)){
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "请输入用户名或密码!");
@@ -156,10 +157,10 @@ public class LoginController {
         }
 
         try {
-            GSysUser gSysUser = loginService.managerLogin(userName, passWord);
+            GSysManager gSysManagers = loginService.managerLogin(userName, passWord);
 
-            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysUser);
-            res.put(Constant.RESPONSE_DATA, gSysUser);
+            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysManagers);
+            res.put(Constant.RESPONSE_DATA, gSysManagers);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "登录成功!");
             ServletUtils.writeToResponse(response, res);

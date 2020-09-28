@@ -168,7 +168,7 @@ public class ManageController {
     }
 
     /**
-     * 小程序故障上报获取单位列表
+     * 小程序故障上报获取业主单位列表
      * @param request
      * @param response
      */
@@ -334,6 +334,50 @@ public class ManageController {
             List<Map<String, Object>> orderProgress = manageService.getOrderProgress(orderId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, orderProgress);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序获取客户经理订单列表
+     * @param request
+     * @param response
+     * @param managerId 客户经理Id
+     */
+    @RequestMapping(value = "/getOrderListForManager",method = RequestMethod.GET)
+    public void getOrderListForManager(HttpServletRequest request, HttpServletResponse response,
+                                 @RequestParam("managerId") String managerId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> orderProgress = manageService.getOrderListForManager(managerId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderProgress);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序客户经理查看评价
+     * @param request
+     * @param response
+     * @param orderId 订单id
+     */
+    @RequestMapping(value = "/checkEvaluationDetail",method = RequestMethod.GET)
+    public void checkEvaluationDetail(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            GSysEvaluate gSysEvaluate = manageService.checkEvaluationDetail(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, gSysEvaluate);
             ServletUtils.writeToResponse(response, res);
         } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
