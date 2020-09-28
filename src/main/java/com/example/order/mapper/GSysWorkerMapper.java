@@ -13,4 +13,14 @@ public interface GSysWorkerMapper {
 
     GSysWorker workerLogin(String loginName);
 
+    List<GSysWorker> getWorkers(String grade);
+
+    void deleteWorker(String workerId);
+
+    int addWorker(GSysWorker gSysWorker);
+
+    GSysWorker getWorker(String workerId);
+
+    void updateWorker(GSysWorker gSysWorker);
+
 }
