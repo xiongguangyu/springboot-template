@@ -149,4 +149,12 @@
     IS_DEL = '0'
     where COMPANY_ID = #{companyId,jdbcType=BIGINT}
   </update>
+
+  <select id="selectCompanyIdForUserId" resultType="long">
+    SELECT
+      COMPANY_ID as companyId
+    FROM g_sys_company a
+    LEFT JOIN g_sys_user b on	a.USER_TEL = b.LOGIN_NAME
+    WHERE b.USER_ID = #{userId,jdbcType=BIGINT}
+  </select>
 </mapper>

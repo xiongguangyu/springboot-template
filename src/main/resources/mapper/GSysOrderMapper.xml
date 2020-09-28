@@ -17,16 +17,16 @@
     <result column="SEND_SMS" jdbcType="CHAR" property="sendSms" />
   </resultMap>
   <sql id="Base_Column_List">
-    ORDER_ID, OPEN_ID, CONSUMER_ID, FAULT_TYPE, PROBLEM, FEEDBACKSRC, TELEPHONE, COMPANY_ID, 
+    ORDER_ID, OPEN_ID, CONSUMER_ID, FAULT_TYPE, PROBLEM, FEEDBACKSRC, TELEPHONE, COMPANY_ID,
     ADDRESS, CONTACT_ADDR, ORDER_STATUS,CREATE_TIME, SEND_SMS
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from g_sys_order
     where ORDER_ID = #{orderId,jdbcType=BIGINT}
   </select>
-  <insert id="insertSelective" parameterType="com.example.order.entity.GSysOrder">
+  <insert id="insertSelective" parameterType="com.example.order.entity.GSysOrder" useGeneratedKeys="true" keyProperty="orderId">
     insert into g_sys_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -192,4 +192,26 @@
       LEFT JOIN g_sys_company d ON a.COMPANY_ID = d.COMPANY_ID
 
     </select>
+
+  <select id="getOrderListForManager" resultType="java.util.Map">
+      SELECT
+          a.ORDER_ID AS id,
+          b.SELECT_VALUE AS type,
+          a.CREATE_TIME AS time,
+          CASE
+              WHEN a.ORDER_STATUS = '01' THEN '已确定'
+              WHEN a.ORDER_STATUS = '02' THEN '待维修'
+              WHEN a.ORDER_STATUS = '03' THEN '已维修'
+              WHEN a.ORDER_STATUS = '04' THEN '已完成'
+          END AS status,
+          a.ORDER_STATUS AS orderStatus,
+          c.WORKER_NAME AS woker
+      FROM
+          g_sys_order a
+          LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
+          LEFT JOIN g_sys_worker c ON a.CONSUMER_ID = c.WORKER_ID
+      WHERE
+        a.COMPANY_ID IN ( SELECT OWNER_ID FROM g_sys_owner WHERE MANAGER_ID = #{managerId} )
+      ORDER BY a.CREATE_TIME DESC;
+  </select>
 </mapper>

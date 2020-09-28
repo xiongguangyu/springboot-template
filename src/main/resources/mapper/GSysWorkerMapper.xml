@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.order.mapper.GSysWorkerMapper">
+  <resultMap id="BaseResultMap" type="com.example.order.entity.GSysWorker">
+
+    <id column="WORKER_ID" jdbcType="BIGINT" property="workerId" />
+    <result column="WORKER_NAME" jdbcType="VARCHAR" property="workerName" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="IS_VALID" jdbcType="VARCHAR" property="isValid" />
+    <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    <result column="IS_DEL" jdbcType="VARCHAR" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    WORKER_ID, WORKER_NAME, GENDER, PHONE, PASSWORD, IS_VALID ,GRADE ,IS_DEL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from g_sys_worker
+    where WORKER_ID = #{workerId,jdbcType=BIGINT}
+  </select>
+
+  <select id="workerLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM g_sys_worker
+    WHERE PHONE = #{loginName,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
