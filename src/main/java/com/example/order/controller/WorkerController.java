@@ -1,9 +1,9 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
-import com.example.order.entity.GSysThirdWorker;
+import com.example.order.entity.GSysWorker;
 import com.example.order.exception.LoginException;
-import com.example.order.service.ThirdWorkerService;
+import com.example.order.service.WorkerService;
 import com.example.order.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,29 +28,29 @@ import java.util.Map;
  * @Version 1.0
  */
 @Controller
-@RequestMapping("/api/thirdWorker")
-public class ThirdWorkerController {
+@RequestMapping("/api/Worker")
+public class WorkerController {
 
-    protected static final Logger logger = LoggerFactory.getLogger(ThirdWorkerController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(WorkerController.class);
 
     @Autowired
-    ThirdWorkerService thirdWorkerService;
+    WorkerService workerService;
 
 
     /**
-     * 查询
-     * @param type
+     * 查询维修工
+     * @param grade
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/getThirdWorker",method = RequestMethod.POST)
-    public void getThirdWorker(@RequestParam("type") String type,
+    @RequestMapping(value = "/getWorkers",method = RequestMethod.POST)
+    public void getWorkers(@RequestParam("grade") String grade,
                         HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<GSysThirdWorker> gSysThirdWorkers= thirdWorkerService.getThirdWorker(type);
+            List<GSysWorker> gSysWorkers= workerService.getWorkers(grade);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, gSysThirdWorkers);
+            res.put(Constant.RESPONSE_DATA, gSysWorkers);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
@@ -60,17 +60,17 @@ public class ThirdWorkerController {
     }
 
     /**
-     * 新增
-     * @param gSysThirdWorker
+     * 新增维修工
+     * @param gSysWorker
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/addThirdWorker",method = RequestMethod.POST)
-    public void addThirdWorker(@RequestBody GSysThirdWorker gSysThirdWorker,
+    @RequestMapping(value = "/addWorker",method = RequestMethod.POST)
+    public void addWorker(@RequestBody GSysWorker gSysWorker,
                          HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            thirdWorkerService.addThirdWorker(gSysThirdWorker);
+            workerService.addWorker(gSysWorker);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -83,17 +83,17 @@ public class ThirdWorkerController {
     }
 
     /**
-     * 删除
+     * 删除维修工
      * @param workerId
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/deleteThirdWorker",method = RequestMethod.POST)
-    public void deleteThirdWorker(@RequestParam("workerId") String workerId,
+    @RequestMapping(value = "/deleteWorker",method = RequestMethod.POST)
+    public void deleteWorker(@RequestParam("workerId") String workerId,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            thirdWorkerService.deleteThirdWorker(workerId);
+            workerService.deleteWorker(workerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -104,14 +104,20 @@ public class ThirdWorkerController {
         }
     }
 
+    /**
+     * 修改维修工
+     * @param workerId
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "/getWorker",method = RequestMethod.POST)
     public void getWorker(@RequestParam("workerId") String workerId,
                          HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            GSysThirdWorker gSysThirdWorker= thirdWorkerService.getWorker(workerId);
+            GSysWorker gSysWorker= workerService.getWorker(workerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, gSysThirdWorker);
+            res.put(Constant.RESPONSE_DATA, gSysWorker);
             ServletUtils.writeToResponse(response, res);
         } catch (LoginException e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
@@ -121,12 +127,12 @@ public class ThirdWorkerController {
 
     }
 
-    @RequestMapping(value = "/updateThirdWorker",method = RequestMethod.POST)
-    public void updateThirdWorker(@RequestBody GSysThirdWorker gSysThirdWorker,
+    @RequestMapping(value = "/updateWorker",method = RequestMethod.POST)
+    public void updateWorker(@RequestBody GSysWorker gSysWorker,
                             HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            thirdWorkerService.updateThirdWorker(gSysThirdWorker);
+            workerService.updateWorker(gSysWorker);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "操作成功!");
             ServletUtils.writeToResponse(response, res);
@@ -137,6 +143,10 @@ public class ThirdWorkerController {
         }
 
     }
+
+
+
+
 
 
 }

@@ -19,4 +19,8 @@ public interface MenuService {
     List<GSysMenu> getCompanyUserMenu();
 
     void doUpdateCompanyMenu(GSysUserMenu gSysUserMenu);
+
+    void doUpdateMenu(GSysMenu gSysMenu);
+
+    List<GSysMenu> getMenus();
 }
