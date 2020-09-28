@@ -105,4 +105,16 @@ public interface ManageService {
      * @return
      */
     GSysEvaluate checkEvaluationDetail(Long orderId);
+
+    /**
+     * 小程序获取维修工订单列表
+     * @return
+     */
+    List<Map<String,Object>> getOrderListForWorker(String workerId);
+
+    /**
+     * 小程序维修工转派订单获取可转派维修工列表
+     * @return
+     */
+    List<Map<String,Object>> getWorkerArray(String workerId);
 }

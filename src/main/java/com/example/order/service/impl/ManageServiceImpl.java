@@ -233,5 +233,16 @@ public class ManageServiceImpl implements ManageService {
         return gSysEvaluateMapper.checkEvaluationDetail(orderId);
     }
 
+    @Override
+    public List<Map<String, Object>> getOrderListForWorker(String workerId) {
+        return gSysOrderMapper.getOrderListForWorker(workerId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getWorkerArray(String workerId) {
+        //根据workerId查询该维修工的基本信息,判断该维修工的等级
+        return null;
+    }
+
 
 }

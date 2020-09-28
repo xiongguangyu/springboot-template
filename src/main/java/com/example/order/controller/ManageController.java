@@ -353,9 +353,9 @@ public class ManageController {
                                  @RequestParam("managerId") String managerId){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<Map<String, Object>> orderProgress = manageService.getOrderListForManager(managerId);
+            List<Map<String, Object>> orderList = manageService.getOrderListForManager(managerId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            res.put(Constant.RESPONSE_DATA, orderProgress);
+            res.put(Constant.RESPONSE_DATA, orderList);
             ServletUtils.writeToResponse(response, res);
         } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
@@ -378,6 +378,50 @@ public class ManageController {
             GSysEvaluate gSysEvaluate = manageService.checkEvaluationDetail(orderId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysEvaluate);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序获取维修工订单列表
+     * @param request
+     * @param response
+     * @param workerId 维修工Id
+     */
+    @RequestMapping(value = "/getOrderListForWorker",method = RequestMethod.GET)
+    public void getOrderListForWorker(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam("workerId") String workerId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> orderList = manageService.getOrderListForWorker(workerId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderList);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序维修工转派订单获取可转派维修工列表
+     * @param request
+     * @param response
+     * @param workerId 维修工Id
+     */
+    @RequestMapping(value = "/getWorkerArray",method = RequestMethod.GET)
+    public void getWorkerArray(HttpServletRequest request, HttpServletResponse response,
+                                      @RequestParam("workerId") String workerId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> workerList = manageService.getWorkerArray(workerId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, workerList);
             ServletUtils.writeToResponse(response, res);
         } catch (Exception e) {
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
