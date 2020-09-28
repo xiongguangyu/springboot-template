@@ -21,4 +21,6 @@ public interface GSysOrderMapper {
      * @return
      */
     List<Map<String,Object>> getOrderListForOwner(@Param("openId") String openId);
+
+    List<Map<String, Object>> getInfo();
 }
