@@ -35,7 +35,7 @@
     IS_VALID, IS_DEL ,REMARK,SELECT_ID
   </sql>
   <select id="getInfo"  resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from g_sys_manage
     where OBJ_ID = #{objId,jdbcType=BIGINT} and TYPE = #{type,jdbcType=CHAR}  and IS_DEL = '1' order by sort
@@ -276,9 +276,9 @@
 
   <select id="getUnitList" resultType="java.util.Map">
     select
-        COMPANY_ID as id,COMPANY_NAME as name
-    from g_sys_company
-    where IS_VALID = '1'
-    order by COMPANY_ID asc
+        OWNER_ID as id,OWNER_NAME as name
+    from g_sys_owner
+    where IS_DEL = '1'
+    order by OWNER_ID asc
   </select>
 </mapper>

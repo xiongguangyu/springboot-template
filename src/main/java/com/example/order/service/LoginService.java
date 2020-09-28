@@ -1,6 +1,9 @@
 package com.example.order.service;
 
+import com.example.order.entity.GSysFirstWorker;
+import com.example.order.entity.GSysManager;
 import com.example.order.entity.GSysUser;
+import com.example.order.entity.GSysWorker;
 
 public interface LoginService {
 
@@ -18,5 +21,13 @@ public interface LoginService {
      * @param password 用户登录密码
      * @return
      */
-    GSysUser managerLogin(String username, String password);
+    GSysManager managerLogin(String username, String password);
+
+    /**
+     * 小程序端维修工登录
+     * @param username 用户名
+     * @param password 用户登录密码
+     * @return
+     */
+    GSysWorker workerLogin(String username, String password);
 }

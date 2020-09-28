@@ -9,11 +9,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GSysManager implements Serializable {
+public class GSysWorker implements Serializable {
 
-    private Long managerId;
+    private Long workerId;
 
-    private String managerName;
+    private String workerName;
 
     private String gender;
 
@@ -21,12 +21,9 @@ public class GSysManager implements Serializable {
 
     private String password;
 
-    private String companyId;
-
-    private String isDel;
-
     private String isValid;
 
-    //管理员id
-    private Long userId;
+    private String grade;
+
+    private String isDel;
 }

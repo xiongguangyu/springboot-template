@@ -21,4 +21,10 @@ public interface GSysOrderMapper {
      * @return
      */
     List<Map<String,Object>> getOrderListForOwner(@Param("openId") String openId);
+
+    /**
+     * 小程序获取客户经理订单列表
+     * @return
+     */
+    List<Map<String,Object>> getOrderListForManager(@Param("managerId") String managerId);
 }

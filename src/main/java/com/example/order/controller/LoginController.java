@@ -1,7 +1,9 @@
 package com.example.order.controller;
 
 import com.example.order.common.Constant;
+import com.example.order.entity.GSysManager;
 import com.example.order.entity.GSysUser;
+import com.example.order.entity.GSysWorker;
 import com.example.order.exception.LoginException;
 import com.example.order.service.LoginService;
 import com.example.order.service.TestService;
@@ -141,13 +143,19 @@ public class LoginController {
         return res;
     }
 
+    /**
+     * 小程序端客户经理登录
+     * @param gSysManager
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "/vchart/manager/doLogin",method = RequestMethod.POST)
-    public void managerLogin(@RequestParam("userName") String userName,
-                          @RequestParam("passWord") String passWord,
+    public void managerLogin(@RequestBody GSysManager gSysManager,
                           HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> res = new HashMap<String, Object>();
-
+        String userName = gSysManager.getPhone();
+        String passWord = gSysManager.getPassword();
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)){
             res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "请输入用户名或密码!");
@@ -156,10 +164,44 @@ public class LoginController {
         }
 
         try {
-            GSysUser gSysUser = loginService.managerLogin(userName, passWord);
+            GSysManager gSysManagers = loginService.managerLogin(userName, passWord);
 
-            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysUser);
-            res.put(Constant.RESPONSE_DATA, gSysUser);
+            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysManagers);
+            res.put(Constant.RESPONSE_DATA, gSysManagers);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "登录成功!");
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+
+    }
+
+    /**
+     * 小程序端维修工登录
+     * @param gSysWorker
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/vchart/worker/doLogin",method = RequestMethod.POST)
+    public void workerLogin(@RequestBody GSysWorker gSysWorker,
+                             HttpServletRequest request, HttpServletResponse response){
+
+        Map<String, Object> res = new HashMap<String, Object>();
+        String userName = gSysWorker.getPhone();
+        String passWord = gSysWorker.getPassword();
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)){
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, "请输入用户名或密码!");
+            ServletUtils.writeToResponse(response, res);
+            return;
+        }
+        try {
+            GSysWorker gSysWorkers = loginService.workerLogin(userName, passWord);
+            request.getSession().setAttribute(Constant.SESSION_SYSUSER, gSysWorkers);
+            res.put(Constant.RESPONSE_DATA, gSysWorkers);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_CODE_MSG, "登录成功!");
             ServletUtils.writeToResponse(response, res);
