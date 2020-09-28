@@ -9,19 +9,21 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GSysFirstMaintenance implements Serializable {
+public class GSysFirstWorker implements Serializable {
 
-    private Long consumerId;
+    private Long workerId;
 
-    private String consumerName;
+    private String workerName;
 
     private String gender;
 
     private String phone;
 
-    private String company;
+    private String password;
 
-    private String post;
+    private String isValid;
+
+    private String grade;
 
     private String isDel;
 }

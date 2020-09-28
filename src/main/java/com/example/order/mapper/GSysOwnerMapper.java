@@ -11,8 +11,6 @@ public interface GSysOwnerMapper {
 
     List<GSysOwner> getOwnerList(@Param("userId") String userId);
 
-
-
     int addOwner(GSysOwner gSysOwner);
 
     void deleteOwner(String ownerId);
