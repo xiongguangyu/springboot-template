@@ -36,4 +36,8 @@ public interface GSysMenuMapper {
     void doUpdateCompanyMenu(GSysUserMenu gSysUserMenu);
 
     List<GSysMenu> getCompanyUserMenu();
+
+    void doUpdateMenu(GSysMenu gSysMenu);
+
+    List<GSysMenu> getMenus();
 }
