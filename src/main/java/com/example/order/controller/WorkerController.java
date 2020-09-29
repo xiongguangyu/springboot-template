@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName ConsumerController
- * @Description 用户管理
+ * @ClassName WorkerController
+ * @Description 维修工管理
  * @Author ShiYJ
  * @Date 2020/9/23
  * @Version 1.0

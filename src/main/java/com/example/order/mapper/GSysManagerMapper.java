@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public interface GSysManagerMapper {
 
-    List<Map<String, Object>> getManagerList(String type);
+    List<Map<String, Object>> getManagerList(String userId);
 
     List<Map<String, Object>> getManagerId(@Param("userId") String userId);
 

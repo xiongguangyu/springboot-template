@@ -182,25 +182,28 @@
             a.OPEN_ID = #{openId}
         ORDER BY a.CREATE_TIME DESC
   </select>
-    <select id="getInfo"  resultType="java.util.Map">
-      SELECT
-          b.SELECT_VALUE,
-          c.PHONE,
-          c.MANAGER_NAME,
-          d.COMPANY_NAME,
-          a.*,
-          CASE
-            WHEN a.ORDER_STATUS = '01' THEN '已确定'
-            WHEN a.ORDER_STATUS = '02' THEN '待维修'
-            WHEN a.ORDER_STATUS = '03' THEN '已维修'
-            WHEN a.ORDER_STATUS = '04' THEN '已完成'
-          END AS STATUS
-      FROM
-        g_sys_order a
-      LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
-      LEFT JOIN g_sys_manager c ON a.CONSUMER_ID = c.MANAGER_ID
-      LEFT JOIN g_sys_company d ON a.COMPANY_ID = d.COMPANY_ID
-    </select>
+  <select id="getInfo"  resultType="java.util.Map">
+    SELECT
+    b.SELECT_VALUE,
+    c.PHONE,
+    c.WORKER_NAME,
+    f.COMPANY_NAME,
+    a.*,
+    CASE
+    WHEN a.ORDER_STATUS = '01' THEN '已确定'
+    WHEN a.ORDER_STATUS = '02' THEN '待维修'
+    WHEN a.ORDER_STATUS = '03' THEN '已维修'
+    WHEN a.ORDER_STATUS = '04' THEN '已完成'
+    END AS STATUS
+    FROM
+    g_sys_order a
+    LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
+    LEFT JOIN g_sys_worker c ON a.CONSUMER_ID = c.WORKER_ID
+    LEFT JOIN g_sys_owner d ON a.COMPANY_ID = d.OWNER_ID
+    LEFT JOIN g_sys_manager e ON e.MANAGER_ID = d.MANAGER_ID
+    LEFT JOIN g_sys_company f ON f.COMPANY_ID = e.COMPANY_ID
+    <!--where f.USER_TEL = '11111111111'-->
+  </select>
 
   <select id="getOrderListForManager" resultType="java.util.Map">
       SELECT

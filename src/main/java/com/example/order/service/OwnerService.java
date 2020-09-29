@@ -9,7 +9,7 @@ public interface OwnerService {
 
     /**
      * 用户管理
-     * @param type type
+     * @param userId userId
      * @return
      */
     List<GSysOwner> getOwnerList(String userId);
