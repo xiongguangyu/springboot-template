@@ -117,4 +117,22 @@ public interface ManageService {
      * @return
      */
     List<Map<String,Object>> getWorkerArray(String workerId);
+
+    /**
+     * 小程序维修工转派订单
+     * @return
+     */
+    void transferOrder(Long orderId,Long transferUserId,String transferDesc);
+
+    /**
+     * 小程序维修工完成订单
+     * @return
+     */
+    void completeOrder(Long orderId);
+
+    /**
+     * 小程序维修工查看订单详情
+     * @return
+     */
+    Map<String,Object> checkOrderDetails(Long orderId);
 }

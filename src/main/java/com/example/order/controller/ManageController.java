@@ -430,4 +430,73 @@ public class ManageController {
         }
     }
 
+    /**
+     * 小程序维修工转派订单
+     * @param request
+     * @param response
+     * @param orderId 订单ID
+     * @param transferUserId 转派维修工ID
+     * @param transferDesc 转派描述
+     */
+    @RequestMapping(value = "/transferOrder",method = RequestMethod.GET)
+    public void getWorkerArray(HttpServletRequest request, HttpServletResponse response,
+                               @RequestParam("orderId") Long orderId,
+                               @RequestParam("transferUserId") Long transferUserId,
+                               @RequestParam("transferDesc") String transferDesc){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            manageService.transferOrder(orderId,transferUserId,transferDesc);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "转派成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序维修工完成订单
+     * @param request
+     * @param response
+     * @param orderId 订单ID
+     */
+    @RequestMapping(value = "/completeOrder",method = RequestMethod.GET)
+    public void completeOrder(HttpServletRequest request, HttpServletResponse response,
+                               @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            manageService.completeOrder(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, "操作成功");
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
+
+    /**
+     * 小程序维修工查看订单详情
+     * @param request
+     * @param response
+     * @param orderId 订单ID
+     */
+    @RequestMapping(value = "/checkOrderDetails",method = RequestMethod.GET)
+    public void checkOrderDetails(HttpServletRequest request, HttpServletResponse response,
+                              @RequestParam("orderId") Long orderId){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            Map<String, Object> orderDetails = manageService.checkOrderDetails(orderId);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, orderDetails);
+            ServletUtils.writeToResponse(response, res);
+        } catch (Exception e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+    }
 }
