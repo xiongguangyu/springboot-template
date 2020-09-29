@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName UserManagementController
+ * @ClassName ManagerController
  * @Description 客户经理管理
  * @Author ShiYJ
  * @Date 2020/9/22
@@ -39,16 +39,16 @@ public class ManagerController {
 
     /**
      * 查询客户经理
-     * @param type
+     * @param userId
      * @param request
      * @param response
      */
     @RequestMapping(value = "/getManagerList",method = RequestMethod.POST)
-    public void getManagerList(@RequestParam("type") String type,
+    public void getManagerList(@RequestParam("userId") String userId,
                                HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> res = new HashMap<String, Object>();
         try {
-            List<Map<String, Object>> gSysManagement = managerService.getManagerList(type);
+            List<Map<String, Object>> gSysManagement = managerService.getManagerList(userId);
             res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
             res.put(Constant.RESPONSE_DATA, gSysManagement);
             ServletUtils.writeToResponse(response, res);
