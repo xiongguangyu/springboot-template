@@ -28,8 +28,8 @@ public class ManagerServiceImpl implements ManagerService {
     private GSysCompanyMapper gSysCompanyMapper;
 
     @Override
-    public List<Map<String, Object>> getManagerList(String type) {
-        return gSysManagerMapper.getManagerList(type);
+    public List<Map<String, Object>> getManagerList(String userId) {
+        return gSysManagerMapper.getManagerList(userId);
 
     }
 
