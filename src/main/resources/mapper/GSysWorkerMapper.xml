@@ -129,4 +129,12 @@
     </set>
     where WORKER_ID = #{workerId,jdbcType=BIGINT}
   </update>
+
+  <select id="getWorkerArray" resultType="java.util.Map" parameterType="java.lang.String">
+    select
+        WORKER_ID as id,WORKER_NAME as name
+    from g_sys_worker
+    where  GRADE = #{grade}
+    order by WORKER_ID asc
+  </select>
 </mapper>

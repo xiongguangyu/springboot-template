@@ -11,10 +11,10 @@ public interface ManagerService {
 
     /**
      * 公告，新闻，轮播图
-     * @param type type
+     * @param userId type
      * @return
      */
-    List<Map<String, Object>> getManagerList(String type);
+    List<Map<String, Object>> getManagerList(String userId);
 
 
     List<Map<String, Object>> getManagerId(String userId);
