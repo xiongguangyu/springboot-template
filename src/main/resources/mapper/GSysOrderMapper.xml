@@ -15,10 +15,11 @@
     <result column="ORDER_STATUS" jdbcType="CHAR" property="orderStatus" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="SEND_SMS" jdbcType="CHAR" property="sendSms" />
+    <result column="TRANSFER_DESC" jdbcType="VARCHAR" property="transferDesc" />
   </resultMap>
   <sql id="Base_Column_List">
     ORDER_ID, OPEN_ID, CONSUMER_ID, FAULT_TYPE, PROBLEM, FEEDBACKSRC, TELEPHONE, COMPANY_ID,
-    ADDRESS, CONTACT_ADDR, ORDER_STATUS,CREATE_TIME, SEND_SMS
+    ADDRESS, CONTACT_ADDR, ORDER_STATUS,CREATE_TIME, SEND_SMS, TRANSFER_DESC
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
@@ -68,6 +69,9 @@
       <if test="sendSms != null">
         SEND_SMS,
       </if>
+      <if test="transferDesc != null">
+        TRANSFER_DESC,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -108,6 +112,9 @@
       </if>
       <if test="sendSms != null">
         #{sendSms,jdbcType=CHAR},
+      </if>
+      <if test="transferDesc != null">
+          #{transferDesc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -150,50 +157,53 @@
       <if test="sendSms != null">
         SEND_SMS = #{sendSms,jdbcType=CHAR},
       </if>
+      <if test="transferDesc != null">
+        TRANSFER_DESC = #{transferDesc,jdbcType=CHAR},
+      </if>
     </set>
     where ORDER_ID = #{orderId,jdbcType=BIGINT}
   </update>
 
   <select id="getOrderListForOwner" resultType="java.util.Map">
-    SELECT
-        a.ORDER_ID AS id,
-        b.SELECT_VALUE AS type,
-        a.CREATE_TIME AS time,
-        CASE
-            WHEN a.ORDER_STATUS = '01' THEN '已确定'
-            WHEN a.ORDER_STATUS = '02' THEN '待维修'
-            WHEN a.ORDER_STATUS = '03' THEN '已维修'
-            WHEN a.ORDER_STATUS = '04' THEN '已完成'
-        END AS status,
-        a.ORDER_STATUS AS orderStatus
-    FROM
-        g_sys_order a LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
-    WHERE
-        a.OPEN_ID = #{openId}
-    ORDER BY a.CREATE_TIME DESC
+        SELECT
+            a.ORDER_ID AS id,
+            b.SELECT_VALUE AS type,
+            a.CREATE_TIME AS time,
+            CASE
+                WHEN a.ORDER_STATUS = '01' THEN '已确定'
+                WHEN a.ORDER_STATUS = '02' THEN '待维修'
+                WHEN a.ORDER_STATUS = '03' THEN '已维修'
+                WHEN a.ORDER_STATUS = '04' THEN '已完成'
+            END AS status,
+            a.ORDER_STATUS AS orderStatus
+        FROM
+            g_sys_order a LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
+        WHERE
+            a.OPEN_ID = #{openId}
+        ORDER BY a.CREATE_TIME DESC
   </select>
-    <select id="getInfo"  resultType="java.util.Map">
-      SELECT
-      b.SELECT_VALUE,
-      c.PHONE,
-      c.WORKER_NAME,
-      f.COMPANY_NAME,
-      a.*,
-      CASE
-      WHEN a.ORDER_STATUS = '01' THEN '已确定'
-      WHEN a.ORDER_STATUS = '02' THEN '待维修'
-      WHEN a.ORDER_STATUS = '03' THEN '已维修'
-      WHEN a.ORDER_STATUS = '04' THEN '已完成'
-      END AS STATUS
-      FROM
-      g_sys_order a
-      LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
-      LEFT JOIN g_sys_worker c ON a.CONSUMER_ID = c.WORKER_ID
-      LEFT JOIN g_sys_owner d ON a.COMPANY_ID = d.OWNER_ID
-      LEFT JOIN g_sys_manager e ON e.MANAGER_ID = d.MANAGER_ID
-      LEFT JOIN g_sys_company f ON f.COMPANY_ID = e.COMPANY_ID
-      <!--where f.USER_TEL = '11111111111'-->
-    </select>
+  <select id="getInfo"  resultType="java.util.Map">
+    SELECT
+    b.SELECT_VALUE,
+    c.PHONE,
+    c.WORKER_NAME,
+    f.COMPANY_NAME,
+    a.*,
+    CASE
+    WHEN a.ORDER_STATUS = '01' THEN '已确定'
+    WHEN a.ORDER_STATUS = '02' THEN '待维修'
+    WHEN a.ORDER_STATUS = '03' THEN '已维修'
+    WHEN a.ORDER_STATUS = '04' THEN '已完成'
+    END AS STATUS
+    FROM
+    g_sys_order a
+    LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
+    LEFT JOIN g_sys_worker c ON a.CONSUMER_ID = c.WORKER_ID
+    LEFT JOIN g_sys_owner d ON a.COMPANY_ID = d.OWNER_ID
+    LEFT JOIN g_sys_manager e ON e.MANAGER_ID = d.MANAGER_ID
+    LEFT JOIN g_sys_company f ON f.COMPANY_ID = e.COMPANY_ID
+    <!--where f.USER_TEL = '11111111111'-->
+  </select>
 
   <select id="getOrderListForManager" resultType="java.util.Map">
       SELECT
@@ -215,5 +225,43 @@
       WHERE
         a.COMPANY_ID IN ( SELECT OWNER_ID FROM g_sys_owner WHERE MANAGER_ID = #{managerId} )
       ORDER BY a.CREATE_TIME DESC;
+  </select>
+
+  <select id="getOrderListForWorker" resultType="java.util.Map">
+      SELECT
+          a.ORDER_ID AS id,
+          b.SELECT_VALUE AS type,
+          a.CREATE_TIME AS time,
+          CASE
+              WHEN a.ORDER_STATUS = '01' THEN '已确定'
+              WHEN a.ORDER_STATUS = '02' THEN '待维修'
+              WHEN a.ORDER_STATUS = '03' THEN '已维修'
+              WHEN a.ORDER_STATUS = '04' THEN '已完成'
+          END AS status,
+          a.ORDER_STATUS AS orderStatus,
+		  c.GRADE AS grade
+      FROM
+          g_sys_order a
+          LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
+          LEFT JOIN g_sys_worker c ON a.CONSUMER_ID = c.WORKER_ID
+      WHERE
+          a.CONSUMER_ID = #{workerId}
+      ORDER BY a.CREATE_TIME DESC;
+  </select>
+
+    <select id="checkOrderDetails" resultType="java.util.Map">
+        SELECT
+            a.ORDER_ID AS orderId,
+            b.SELECT_VALUE AS type,
+            a.FEEDBACKSRC AS photos,
+            a.TELEPHONE AS phone,
+            CONCAT(a.ADDRESS,a.CONTACT_ADDR) AS address,
+            c.OWNER_NAME AS unit,
+            a.PROBLEM AS evaluation,
+            a.TRANSFER_DESC AS transferDesc
+        FROM g_sys_order a
+        LEFT JOIN g_sys_select b ON a.FAULT_TYPE = b.SELECT_ID
+        LEFT JOIN g_sys_owner c ON a.COMPANY_ID = c.OWNER_ID
+        WHERE a.ORDER_ID = #{orderId}
   </select>
 </mapper>
