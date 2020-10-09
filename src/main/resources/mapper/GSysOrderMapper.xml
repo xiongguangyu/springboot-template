@@ -185,7 +185,7 @@
   <select id="getInfo"  resultType="java.util.Map">
     SELECT
     b.SELECT_VALUE,
-    c.PHONE,
+    c.PHONE TEL,
     c.WORKER_NAME,
     f.COMPANY_NAME,
     a.*,
