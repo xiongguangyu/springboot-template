@@ -170,7 +170,7 @@
             b.SELECT_VALUE AS type,
             a.CREATE_TIME AS time,
             CASE
-                WHEN a.ORDER_STATUS = '01' THEN '已确定'
+                WHEN a.ORDER_STATUS = '01' THEN '已受理'
                 WHEN a.ORDER_STATUS = '02' THEN '待维修'
                 WHEN a.ORDER_STATUS = '03' THEN '已维修'
                 WHEN a.ORDER_STATUS = '04' THEN '已完成'
@@ -190,7 +190,7 @@
     f.COMPANY_NAME,
     a.*,
     CASE
-    WHEN a.ORDER_STATUS = '01' THEN '已确定'
+    WHEN a.ORDER_STATUS = '01' THEN '已受理'
     WHEN a.ORDER_STATUS = '02' THEN '待维修'
     WHEN a.ORDER_STATUS = '03' THEN '已维修'
     WHEN a.ORDER_STATUS = '04' THEN '已完成'
@@ -211,7 +211,7 @@
           b.SELECT_VALUE AS type,
           a.CREATE_TIME AS time,
           CASE
-              WHEN a.ORDER_STATUS = '01' THEN '已确定'
+              WHEN a.ORDER_STATUS = '01' THEN '已受理'
               WHEN a.ORDER_STATUS = '02' THEN '待维修'
               WHEN a.ORDER_STATUS = '03' THEN '已维修'
               WHEN a.ORDER_STATUS = '04' THEN '已完成'
@@ -233,7 +233,7 @@
           b.SELECT_VALUE AS type,
           a.CREATE_TIME AS time,
           CASE
-              WHEN a.ORDER_STATUS = '01' THEN '已确定'
+              WHEN a.ORDER_STATUS = '01' THEN '已受理'
               WHEN a.ORDER_STATUS = '02' THEN '待维修'
               WHEN a.ORDER_STATUS = '03' THEN '已维修'
               WHEN a.ORDER_STATUS = '04' THEN '已完成'
