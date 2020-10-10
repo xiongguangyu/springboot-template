@@ -133,4 +133,11 @@
     </set>
     where MANAGER_ID = #{managerId,jdbcType=BIGINT}
   </update>
+
+  <select id="managerLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM g_sys_manager
+    WHERE PHONE = #{loginName,jdbcType=VARCHAR}
+  </select>
 </mapper>

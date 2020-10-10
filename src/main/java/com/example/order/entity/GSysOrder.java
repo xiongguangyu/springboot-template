@@ -38,4 +38,6 @@ public class GSysOrder implements Serializable {
 
     private String sendSms;
 
+    private String transferDesc;
+
 }
