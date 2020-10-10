@@ -20,6 +20,8 @@ public interface ManageService {
 
     List<GSysManage> getList(String type,String searchContent);
 
+    List<Map<String, Object>> getNewsList(String type,String searchContent);
+
     void addInfo(GSysManage gSysManage)  throws AddUserException;
 
     void updateList(GSysManage gSysManage);

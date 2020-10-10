@@ -14,6 +14,8 @@ public interface GSysManageMapper {
 
     List<GSysManage> getList(String type,String searchContent);
 
+    List<Map<String,Object>> getNewsList(String type,String searchContent);
+
     int deleteByPrimaryKey(Long objId);
 
     int insert(GSysManage record);

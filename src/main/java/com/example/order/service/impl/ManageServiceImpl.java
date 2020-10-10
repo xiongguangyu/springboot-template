@@ -56,6 +56,12 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getNewsList(@Param("type")String type,@Param("searchContent")String searchContent) {
+        return gSysManageMapper.getNewsList(type,searchContent);
+
+    }
+
+    @Override
     public void addInfo(GSysManage gSysManage) throws AddUserException {
         try {
             gSysManageMapper.insertSelective(gSysManage);

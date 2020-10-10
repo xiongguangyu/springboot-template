@@ -76,6 +76,23 @@ public class PcManageController {
 
     }
 
+    @RequestMapping(value = "/getNewsList",method = RequestMethod.POST)
+    public void getNewsList(@RequestParam("type") String type,@RequestParam(value="searchContent",required=false)String searchContent,
+                        HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            List<Map<String, Object>> gSysManage= manageService.getNewsList(type,searchContent);
+            res.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            res.put(Constant.RESPONSE_DATA, gSysManage);
+            ServletUtils.writeToResponse(response, res);
+        } catch (LoginException e) {
+            res.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            res.put(Constant.RESPONSE_CODE_MSG, e.getMessage());
+            ServletUtils.writeToResponse(response, res);
+        }
+
+    }
+
     @RequestMapping(value = "/addList",method = RequestMethod.POST)
     public void addList(@RequestBody GSysManage gSysManage,
                             HttpServletRequest request, HttpServletResponse response){
