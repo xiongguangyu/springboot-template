@@ -47,9 +47,6 @@
       <if test="workerName != null">
         WORKER_NAME,
       </if>
-      <if test="gender != null">
-        GENDER,
-      </if>
       <if test="phone != null">
         PHONE,
       </if>
@@ -72,9 +69,6 @@
       </if>
       <if test="workerName != null">
         #{workerName,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null">
-        #{gender,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -113,9 +107,6 @@
     <set>
       <if test="workerName != null">
         WORKER_NAME = #{workerName,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null">
-        GENDER = #{gender,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         PHONE = #{phone,jdbcType=VARCHAR},
